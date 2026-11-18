@@ -1,5 +1,5 @@
 # robots.txt — Workmath
-# Replace workmath.com with your own domain before deploying.
+# Replace workmath.net with your own domain before deploying.
 
 User-agent: *
 Allow: /
@@ -16,4 +16,4 @@ Allow: /
 User-agent: AdsBot-Google-Mobile
 Allow: /
 
-Sitemap: https://workmath.com/sitemap.xml
+Sitemap: https://workmath.net/sitemap.xml

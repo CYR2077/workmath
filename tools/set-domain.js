@@ -8,7 +8,7 @@
      node tools/set-domain.js 25hourmath.com 25HourMath
 
    做的事:
-     - 所有 .html / .xml / .txt / .js 里的 test-example.com 换成新域名
+     - 所有 .html / .xml / .txt / .js 里的 workmath.net 换成新域名
        (含 canonical、og:url、sitemap、robots、JSON-LD、生成脚本里的 SITE 常量)
      - 给了第二个参数时，把页面上的品牌名 TestBrand 换成新品牌
      - 跳过 .md 文档，保留里面的示例说明
@@ -21,7 +21,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const OLD_DOMAIN = 'test-example.com';
+const OLD_DOMAIN = 'workmath.com';
 const OLD_BRAND = 'TestBrand';
 
 const args = process.argv.slice(2);
@@ -48,7 +48,10 @@ function walk(dir, out = []) {
   return out;
 }
 
-const targets = walk(ROOT).filter(f => /\.(html|xml|txt|js)$/i.test(f));
+// 注意: 必须排除脚本自身，否则 OLD_DOMAIN 会被替换成新域名，脚本就失效了
+const SELF = path.basename(__filename);
+const targets = walk(ROOT).filter(f =>
+  /\.(html|xml|txt|js)$/i.test(f) && path.basename(f) !== SELF);
 
 let changed = 0;
 let domainHits = 0;
@@ -74,6 +77,13 @@ for (const f of targets) {
     fs.writeFileSync(f, t, 'utf8');
     changed++;
   }
+}
+
+if (domainHits === 0) {
+  console.error('\nnothing was replaced — the site may already use "' + newDomain + '",');
+  console.error('or OLD_DOMAIN in this script no longer matches the live domain.');
+  console.error('current OLD_DOMAIN: ' + OLD_DOMAIN);
+  process.exit(1);
 }
 
 console.log(`domain:  ${OLD_DOMAIN}  ->  ${newDomain}   (${domainHits} occurrences in ${changed} files)`);

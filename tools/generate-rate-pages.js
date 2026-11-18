@@ -16,7 +16,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const SITE = 'https://workmath.com';
+const SITE = 'https://workmath.net';
 const BRAND = 'Workmath';
 const UPDATED_ISO = '2026-11-18';
 const UPDATED_HUMAN = '18 November 2026';
