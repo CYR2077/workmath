@@ -41,7 +41,8 @@ sleep-debt-calculator/
 savings-goal-calculator/
 freelance-rate-calculator/
 about/  contact/  privacy/  terms/
-tools/                         本地开发与回归测试脚本
+*-an-hour-is-how-much-a-year/   20 个长尾费率页（脚本生成）
+tools/                         本地开发、生成与回归测试脚本
 ```
 
 ## 本地预览
@@ -60,6 +61,17 @@ node tools\check-syntax.js       # 校验所有 JS 与内联脚本语法
 ```
 
 `run-calc-tests.js` 用一个最小 DOM 模拟真实执行页面里的内联脚本，不是复制公式重算。改动任何一个计算器后跑一遍，能立刻发现算错的输出。
+
+## 长尾费率页（20 个）
+
+`/15-an-hour-is-how-much-a-year/` … `/45-an-hour-is-how-much-a-year/` 由脚本生成，覆盖 "X an hour is how much a year" 这一组搜索意图。每页包含该费率特有的完整周期表、不同周工时表、相邻费率对比表、FICA 扣缴金额、加班测算和 5 条 FAQ。
+
+```powershell
+node tools\generate-rate-pages.js   # 重新生成全部费率页 + 重建 sitemap + 刷新首页入口
+node tools\validate-site.js         # 校验全站内链、meta、以及每页数字是否等于 rate x 2080
+```
+
+要加一档费率（比如 $55），在 `tools/generate-rate-pages.js` 的 `RATES` 数组里加一条，填上 `rate`、`note`（该费率的现实定位）和 `verdict`（"这算不算好收入"的判断），重新运行即可。`note` 和 `verdict` 是每页唯一的正文来源 —— 不填就会和其他页面撞内容，AdSense 会判重复。
 
 ## 部署前必改
 
