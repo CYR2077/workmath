@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freelance Rate Calculator — What Should You Charge Per Hour?</title>
+<meta name="description" content="Work out the hourly rate a freelancer actually needs from a target income, business expenses, tax and the share of the week that is genuinely billable. Includes day rate and project quote.">
+<link rel="canonical" href="https://workmath.com/freelance-rate-calculator/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0b1020">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Freelance Rate Calculator">
+<meta property="og:description" content="Turn a target income into an hourly rate that survives expenses, tax and unbillable admin time.">
+<meta property="og:url" content="https://workmath.com/freelance-rate-calculator/">
+<meta property="og:site_name" content="Workmath">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"Freelance Rate Calculator","url":"https://workmath.com/freelance-rate-calculator/","applicationCategory":"BusinessApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Calculate a sustainable freelance hourly rate from target income, expenses, tax rate, working weeks and billable utilisation."},
+{"@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://workmath.com/"},
+{"@type":"ListItem","position":2,"name":"Freelance Rate Calculator","item":"https://workmath.com/freelance-rate-calculator/"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What percentage of a freelancer's week is billable?","acceptedAnswer":{"@type":"Answer","text":"Most independent professionals bill between 50% and 70% of the hours they work. The rest goes to proposals, invoicing, marketing, bookkeeping, learning and client calls that nobody pays for directly. Planning at 60% is realistic; planning at 100% is the most common reason freelancers underprice themselves into exhaustion."}},
+{"@type":"Question","name":"Should I charge hourly, daily or per project?","acceptedAnswer":{"@type":"Answer","text":"Hourly is the easiest to justify when scope is unclear, and it punishes you for getting faster. A day rate reduces admin and is standard in creative and engineering contracting. Fixed-price projects pay best when scope is genuinely defined, because you capture the value of your efficiency, but they transfer scope-creep risk to you. Use your hourly figure as the internal floor for the other two."}},
+{"@type":"Question","name":"How do taxes work for freelancers?","acceptedAnswer":{"@type":"Answer","text":"In the United States, self-employed people pay both halves of Social Security and Medicare, about 15.3% on 92.35% of net profit, on top of income tax, usually through quarterly estimated payments. In the UK, a sole trader pays income tax and Class 4 National Insurance on profits through Self Assessment, while a limited company pays corporation tax and the director takes salary and dividends. Either way, the tax rate you enter should cover income tax plus self-employment contributions, not just one of them."}},
+{"@type":"Question","name":"How much should I add for non-payment risk and slow clients?","acceptedAnswer":{"@type":"Answer","text":"A practical allowance is 5% to 10% on top of your calculated rate, plus a deposit of 30% to 50% on new clients, a written late-payment clause, and a rule that work stops when an invoice goes past terms. Chasing payment is unbillable time, and it is the single most under-budgeted cost in a freelance business."}},
+{"@type":"Question","name":"Why is my freelance rate higher than my old salary divided by hours?","acceptedAnswer":{"@type":"Answer","text":"Because an employer was covering things you now pay for: pension contributions, health insurance, paid holiday, sick leave, equipment, software, training, and the days you spend finding the next client. A $60,000 salary with benefits is closer to $75,000-$85,000 of real cost, and only about 60% of your working hours are billable. Dividing salary by 2,080 hours systematically underprices freelance work."}},
+{"@type":"Question","name":"Should I raise my rate for existing clients?","acceptedAnswer":{"@type":"Answer","text":"Yes, on a schedule. Announce an increase 30 to 60 days ahead, apply it to new work rather than work already quoted, and give the client a clear date. Annual increases of 5% to 10% are normal and rarely lose good clients. Keeping a client at an old rate for years is effectively giving them a pay cut each year as your costs rise."}}]}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/"><span class="logo-mark">W</span>Workmath</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#tools">All tools</a>
+      <a href="/hourly-to-salary-calculator/">Salary</a>
+      <a href="/savings-goal-calculator/">Savings</a>
+      <a href="/about/">About</a>
+      <select id="cur" data-currency-select aria-label="Currency" style="font:inherit;font-size:13px;padding:6px 8px;border:1px solid #d0d5dd;border-radius:8px;background:#fff;min-height:36px"></select>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <p class="crumbs"><a href="/">Home</a> › Freelance Rate Calculator</p>
+    <h1 class="page-title">Freelance Rate Calculator</h1>
+    <p class="page-lede">Start from the income you want to take home, add the costs of running a business, then divide by the hours clients actually pay for — not by 2,080. That last step is where most freelance pricing goes wrong.</p>
+    <p class="updated">Last updated <time datetime="2026-11-18">18 November 2026</time></p>
+
+    <div class="ad-slot" data-ad="top" hidden></div>
+
+    <section class="calc" aria-labelledby="c1">
+      <h2 id="c1">Your minimum sustainable rate</h2>
+      <p class="hint">Everything updates live. Use "billable share" honestly — if you are unsure, 60% is a fair default.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="income">Income you want to take home <span class="sub">(per year, after tax)</span></label>
+          <input id="income" type="number" inputmode="decimal" min="0" step="1000" value="70000">
+        </div>
+        <div class="field">
+          <label for="expenses">Business expenses <span class="sub">(per year)</span></label>
+          <input id="expenses" type="number" inputmode="decimal" min="0" step="500" value="9000">
+        </div>
+        <div class="field">
+          <label for="tax">Tax and contributions <span class="sub">(% of profit)</span></label>
+          <input id="tax" type="number" inputmode="decimal" min="0" max="70" step="1" value="30">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="weeks">Weeks worked per year <span class="sub">(after holiday + sick)</span></label>
+          <input id="weeks" type="number" inputmode="decimal" min="1" max="52" step="1" value="46">
+        </div>
+        <div class="field">
+          <label for="hpw">Hours worked per week</label>
+          <input id="hpw" type="number" inputmode="decimal" min="1" max="90" step="1" value="40">
+        </div>
+        <div class="field">
+          <label for="util">Billable share of your time <span class="sub">(%)</span></label>
+          <input id="util" type="number" inputmode="decimal" min="20" max="100" step="1" value="60">
+        </div>
+      </div>
+
+      <div class="results" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Minimum hourly rate</span>
+          <span class="value" id="r-rate">$0.00</span>
+        </div>
+        <div class="kv">
+          <div class="kv-row"><span class="k">Revenue you must invoice</span><span class="v" id="r-rev">$0</span></div>
+          <div class="kv-row"><span class="k">Billable hours per year</span><span class="v" id="r-bill">0</span></div>
+          <div class="kv-row"><span class="k">Unbillable hours per year <span class="sub" style="font-weight:400">(admin, sales, learning)</span></span><span class="v" id="r-unbill">0</span></div>
+          <div class="kv-row"><span class="k">Day rate (8 billable hours)</span><span class="v" id="r-day">$0.00</span></div>
+          <div class="kv-row"><span class="k">Week rate (5 billable days)</span><span class="v" id="r-week">$0.00</span></div>
+          <div class="kv-row"><span class="k">Monthly revenue target</span><span class="v" id="r-month">$0</span></div>
+          <div class="kv-row total"><span class="k">Break-even rate <span class="sub" style="font-weight:400">(covers costs only, no income)</span></span><span class="v" id="r-break">$0.00</span></div>
+        </div>
+        <div class="err" id="r-err" hidden></div>
+        <p class="note">This is your floor, not your price. It is what you must charge to hit the target without losing money. Client value, urgency, and the risk you absorb belong on top of it.</p>
+      </div>
+    </section>
+
+    <section class="calc" aria-labelledby="c2">
+      <h2 id="c2">Project quote</h2>
+      <p class="hint">Estimate the hours honestly, then add a contingency. Every project has a discovery phase nobody budgets for.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="ph">Estimated hours</label>
+          <input id="ph" type="number" inputmode="decimal" min="0" step="1" value="60">
+        </div>
+        <div class="field">
+          <label for="cont">Contingency <span class="sub">(% on top)</span></label>
+          <input id="cont" type="number" inputmode="decimal" min="0" max="100" step="5" value="20">
+        </div>
+        <div class="field">
+          <label for="dep">Deposit requested <span class="sub">(% up front)</span></label>
+          <input id="dep" type="number" inputmode="decimal" min="0" max="100" step="5" value="40">
+        </div>
+      </div>
+      <div class="results" aria-live="polite" style="border-top:1px dashed var(--line)">
+        <div class="result-main">
+          <span class="label">Quote the client</span>
+          <span class="value" id="q-total">$0</span>
+        </div>
+        <div class="kv">
+          <div class="kv-row"><span class="k">Base at your minimum rate</span><span class="v" id="q-base">$0</span></div>
+          <div class="kv-row"><span class="k">With contingency</span><span class="v" id="q-cont">$0</span></div>
+          <div class="kv-row"><span class="k">Deposit to request now</span><span class="v" id="q-dep">$0</span></div>
+          <div class="kv-row"><span class="k">Effective hourly on this quote</span><span class="v" id="q-eff">$0</span></div>
+        </div>
+        <p class="note">Round up to a clean number when you send it. Precision to the cent signals that you priced by arithmetic rather than by judgement.</p>
+      </div>
+    </section>
+
+    <div class="ad-slot" data-ad="mid" hidden></div>
+
+    <section class="prose">
+      <h2>The formula, and the part everyone gets wrong</h2>
+      <div class="formula">profit needed = income ÷ (1 − tax rate)<br>
+revenue needed = profit needed + business expenses<br>
+billable hours = weeks × hours per week × billable %<br>
+hourly rate = revenue needed ÷ billable hours</div>
+      <p>Take a target of $70,000 net, $9,000 of expenses, a 30% tax and contribution rate, 46 weeks at 40 hours with 60% billable:</p>
+      <ul>
+        <li>Profit required: $70,000 ÷ 0.70 = <strong>$100,000</strong></li>
+        <li>Revenue required: $100,000 + $9,000 = <strong>$109,000</strong></li>
+        <li>Billable hours: 46 × 40 × 0.60 = <strong>1,104 hours</strong></li>
+        <li>Minimum rate: $109,000 ÷ 1,104 = <strong>$98.73 per hour</strong></li>
+      </ul>
+      <p>Now compare that to the intuitive calculation almost everyone starts with: $70,000 ÷ 2,080 hours = $33.65. The two numbers differ by a factor of three, and the gap is not padding — it is expenses, tax, holiday, and the 40% of the week that earns nothing.</p>
+
+      <h3>Why the billable share matters more than the rate</h3>
+      <p>Utilisation is the strongest lever in the whole calculation. At 60% you need $98.73 an hour for the same income. At 75% you need $78.99. At 50% you need $118.48. Improving how you spend unbillable time — batching admin, templating proposals, refusing unpaid discovery — is often worth more than a rate increase, and it does not require renegotiating with anyone.</p>
+
+      <h3>What belongs in business expenses</h3>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Category</th><th>Typical annual range</th><th>Easy to forget</th></tr></thead>
+          <tbody>
+            <tr><td>Software and subscriptions</td><td>$600 – $3,000</td><td>Accounting, project management, cloud storage</td></tr>
+            <tr><td>Equipment and replacement cycle</td><td>$800 – $4,000</td><td>A laptop every 3–4 years, not every 8</td></tr>
+            <tr><td>Insurance</td><td>$300 – $2,500</td><td>Professional indemnity, public liability</td></tr>
+            <tr><td>Accounting and legal</td><td>$400 – $2,500</td><td>Year-end filing, contract review</td></tr>
+            <tr><td>Marketing and portfolio</td><td>$300 – $5,000</td><td>Domain, site hosting, paid listings</td></tr>
+            <tr><td>Training and conferences</td><td>$500 – $3,000</td><td>The thing you cut first and regret most</td></tr>
+            <tr><td>Workspace</td><td>$0 – $6,000</td><td>Home office share, co-working desk</td></tr>
+            <tr><td>Bank, payment, and platform fees</td><td>2% – 5% of revenue</td><td>Card fees, currency conversion, marketplace cuts</td></tr>
+            <tr><td>Pension / retirement contribution</td><td>5% – 15% of income</td><td>Nobody else is making this for you now</td></tr>
+            <tr><td>Bad debt and late payment</td><td>2% – 10% of revenue</td><td>The invoice that never arrives</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>What a salary really costs an employer</h3>
+      <p>The comparison freelancers most often make — old salary divided by hours — understates the true cost by a wide margin. An employer typically adds pension contributions, health insurance, paid holiday, sick pay, equipment, software licences, training, and payroll taxes on top of the salary figure. Add 20% to 40% for benefits and overhead, then remember that only about 60% of your self-employed hours are billable. That is why a $60,000 salaried role and a $95-an-hour freelance rate can produce similar take-home pay.</p>
+
+      <h2>Pricing beyond the floor</h2>
+      <p>The calculator gives you a floor. The price you quote is a separate decision, and it should account for:</p>
+      <ul>
+        <li><strong>Value, not time.</strong> If the work unlocks $200,000 of revenue for the client, an hourly rate that reflects your hours is leaving money on the table. Fixed pricing captures that.</li>
+        <li><strong>Urgency and risk.</strong> Weekend delivery, tight deadlines, and indemnified work cost more. Saying so is normal.</li>
+        <li><strong>Scope certainty.</strong> The less defined the brief, the more contingency belongs in the number, or the more you should be charging hourly.</li>
+        <li><strong>Payment terms.</strong> Net 60 from a large client is a loan you are making them. Either price it in or shorten the terms.</li>
+      </ul>
+
+      <h3>Terms that protect the rate</h3>
+      <ol>
+        <li>Deposit of 30–50% before work starts, on any new client.</li>
+        <li>Written scope with an explicit list of what is <em>not</em> included.</li>
+        <li>A change-request clause: new scope, new quote, no silent absorption.</li>
+        <li>Late payment interest stated on the invoice, and work pausing past terms.</li>
+        <li>Rate review annually, with 30–60 days' notice to existing clients.</li>
+      </ol>
+
+      <h2>Frequently asked questions</h2>
+      <details class="faq"><summary>What percentage of a freelancer's week is billable?</summary><div class="faq-body"><p>Usually 50–70%. Proposals, invoicing, marketing, bookkeeping, and client calls that nobody pays for directly consume the rest. 60% is a realistic planning figure; 100% is how people price themselves into burnout.</p></div></details>
+      <details class="faq"><summary>Should I charge hourly, daily or per project?</summary><div class="faq-body"><p>Hourly when scope is unclear, day rate for longer engagements, fixed price when scope is genuinely defined and you can capture the value of your efficiency. Your hourly figure is the internal floor for all three.</p></div></details>
+      <details class="faq"><summary>How do taxes work for freelancers?</summary><div class="faq-body"><p>In the US you pay both halves of Social Security and Medicare — about 15.3% on 92.35% of net profit — plus income tax, usually via quarterly estimates. In the UK a sole trader pays income tax and Class 4 NI through Self Assessment; a limited company pays corporation tax with salary and dividends. Enter the combined effective rate, not just income tax.</p></div></details>
+      <details class="faq"><summary>How much should I add for non-payment risk?</summary><div class="faq-body"><p>Budget 5–10% on top, take a 30–50% deposit from new clients, state late-payment terms in writing, and stop work when an invoice passes terms. Chasing money is unbillable time.</p></div></details>
+      <details class="faq"><summary>Why is my rate higher than my old salary divided by hours?</summary><div class="faq-body"><p>Because the employer was paying pension, insurance, holiday, sick leave, equipment, and software, and because only part of your week is billable. Dividing a salary by 2,080 hours is the most common pricing error in freelancing.</p></div></details>
+      <details class="faq"><summary>Should I raise my rate for existing clients?</summary><div class="faq-body"><p>Yes, annually. Announce 30–60 days ahead, apply it to new work rather than already-quoted work, and give a clear date. 5–10% a year is normal and rarely loses clients who value the work.</p></div></details>
+    </section>
+
+    <div class="ad-slot" data-ad="bottom" hidden></div>
+
+    <section class="related">
+      <h2>Related calculators</h2>
+      <ul>
+        <li><a href="/hourly-to-salary-calculator/">Hourly to Salary Calculator</a></li>
+        <li><a href="/savings-goal-calculator/">Savings Goal with Inflation</a></li>
+        <li><a href="/overtime-pay-calculator/">Overtime Pay Calculator</a></li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="/" style="color:#fff"><span class="logo-mark">W</span>Workmath</a>
+        <p style="margin:10px 0 0;max-width:280px">Free, fast calculators for pay, hours, and personal targets. No accounts, no uploads.</p>
+      </div>
+      <div><h4>Calculators</h4><ul>
+        <li><a href="/overtime-pay-calculator/">Overtime pay</a></li>
+        <li><a href="/hourly-to-salary-calculator/">Hourly to salary</a></li>
+        <li><a href="/tip-split-calculator/">Tip split</a></li>
+        <li><a href="/sleep-debt-calculator/">Sleep debt</a></li>
+        <li><a href="/savings-goal-calculator/">Savings goal</a></li>
+        <li><a href="/freelance-rate-calculator/">Freelance rate</a></li>
+      </ul></div>
+      <div><h4>Site</h4><ul>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/privacy/">Privacy policy</a></li>
+        <li><a href="/terms/">Terms of use</a></li>
+      </ul></div>
+    </div>
+    <div class="legal">
+      &copy; <span data-year>2026</span> Workmath. Estimates are for planning only and are not tax or financial advice. Tax treatment of freelance income varies by country and by business structure — confirm with an accountant.
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+<script>
+(function () {
+  function calc() {
+    var income = PL.val('income', 70000, 0, 1e9);
+    var exp = PL.val('expenses', 9000, 0, 1e9);
+    var taxPct = PL.val('tax', 30, 0, 70);
+    var weeks = PL.val('weeks', 46, 1, 52);
+    var hpw = PL.val('hpw', 40, 1, 90);
+    var utilPct = PL.val('util', 60, 20, 100);
+
+    var t = taxPct / 100;
+    var util = utilPct / 100;
+    var profitNeeded = t < 1 ? income / (1 - t) : Infinity;
+    var revenue = profitNeeded + exp;
+    var totalHours = weeks * hpw;
+    var billHours = totalHours * util;
+    var rate = billHours > 0 && isFinite(revenue) ? revenue / billHours : 0;
+    var breakeven = billHours > 0 ? exp / billHours : 0;
+
+    PL.set('r-rate', isFinite(rate) && rate > 0 ? PL.money(rate) : '—');
+    PL.set('r-rev', isFinite(revenue) ? PL.money(revenue) : '—');
+    PL.set('r-bill', PL.num(billHours, 0) + ' h');
+    PL.set('r-unbill', PL.num(totalHours - billHours, 0) + ' h');
+    PL.set('r-day', PL.money(rate * 8));
+    PL.set('r-week', PL.money(rate * 40));
+    PL.set('r-month', PL.money(revenue / 12));
+    PL.set('r-break', PL.money(breakeven));
+
+    var err = document.getElementById('r-err');
+    if (t >= 1) { err.hidden = false; err.textContent = 'A tax rate of 100% or more cannot produce any income. Lower the rate.'; }
+    else { err.hidden = true; }
+
+    // project quote uses the rate above
+    var ph = PL.val('ph', 60, 0, 100000);
+    var cont = PL.val('cont', 20, 0, 100) / 100;
+    var dep = PL.val('dep', 40, 0, 100) / 100;
+    var base = ph * rate;
+    var withCont = base * (1 + cont);
+
+    PL.set('q-total', PL.money(withCont));
+    PL.set('q-base', PL.money(base));
+    PL.set('q-cont', PL.money(withCont));
+    PL.set('q-dep', PL.money(withCont * dep));
+    PL.set('q-eff', PL.money(ph > 0 ? withCont / ph : 0));
+  }
+
+  PL.watch(['income', 'expenses', 'tax', 'weeks', 'hpw', 'util', 'ph', 'cont', 'dep'], calc);
+})();
+</script>
+  <script src="/ads.js" defer></script>
+</body>
+</html>

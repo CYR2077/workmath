@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hourly to Salary Calculator — Convert Hourly Pay to Annual Salary</title>
+<meta name="description" content="Convert an hourly wage into a weekly, biweekly, monthly and annual salary — and work backwards from a salary offer to the implied hourly rate. Adjusts for unpaid weeks off.">
+<link rel="canonical" href="https://workmath.com/hourly-to-salary-calculator/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0b1020">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hourly to Salary Calculator">
+<meta property="og:description" content="Turn an hourly wage into an annual salary, or a salary offer into an implied hourly rate.">
+<meta property="og:url" content="https://workmath.com/hourly-to-salary-calculator/">
+<meta property="og:site_name" content="Workmath">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"Hourly to Salary Calculator","url":"https://workmath.com/hourly-to-salary-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Convert an hourly wage to annual salary across weekly, biweekly, semi-monthly and monthly pay periods, and convert salary back to hourly."},
+{"@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://workmath.com/"},
+{"@type":"ListItem","position":2,"name":"Hourly to Salary Calculator","item":"https://workmath.com/hourly-to-salary-calculator/"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How many working hours are in a year?","acceptedAnswer":{"@type":"Answer","text":"A 40-hour week across 52 weeks is 2,080 hours, which is the standard figure payroll uses. If you take two weeks of unpaid leave the number drops to 2,000. Part-time at 25 hours a week is 1,300 hours a year."}},
+{"@type":"Question","name":"Is $25 an hour a good salary?","acceptedAnswer":{"@type":"Answer","text":"At 40 hours a week for 52 weeks, $25 an hour is $52,000 a year, or about $4,333 gross a month. Whether that is comfortable depends on local housing costs, whether the employer offers health insurance, and how many hours are actually guaranteed."}},
+{"@type":"Question","name":"Does the annual figure include overtime?","acceptedAnswer":{"@type":"Answer","text":"No. The conversion uses your base hourly rate and the hours you enter. Overtime is not guaranteed income, so annualising it overstates the recurring salary. Model guaranteed hours here and treat overtime as a separate variable bonus."}},
+{"@type":"Question","name":"Should I use 52 weeks or 50?","acceptedAnswer":{"@type":"Answer","text":"Use 52 if you are paid for every week including holidays and paid time off. Use 50 or fewer if you take unpaid weeks off, work seasonally, or are a contractor who does not bill during holidays."}},
+{"@type":"Question","name":"How do I compare an hourly job with a salaried one?","acceptedAnswer":{"@type":"Answer","text":"Convert both to total annual compensation, then divide by the hours you will realistically work. A salary of 60,000 for 45-hour weeks is 25.64 an hour; an hourly job at 26 an hour for 40-hour weeks is 54,080. Compare the effective rates, then add the value of benefits, paid leave and schedule predictability."}},
+{"@type":"Question","name":"Why is my monthly pay not exactly annual divided by 12?","acceptedAnswer":{"@type":"Answer","text":"It usually is when you are salaried. If you are paid biweekly you get 26 paycheques a year, and two months per year contain three pay dates, so monthly cash flow varies even though the annual total is fixed."}}]}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/"><span class="logo-mark">W</span>Workmath</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#tools">All tools</a>
+      <a href="/overtime-pay-calculator/">Overtime</a>
+      <a href="/freelance-rate-calculator/">Freelance&nbsp;Rate</a>
+      <a href="/about/">About</a>
+      <select id="cur" data-currency-select aria-label="Currency" style="font:inherit;font-size:13px;padding:6px 8px;border:1px solid #d0d5dd;border-radius:8px;background:#fff;min-height:36px"></select>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <p class="crumbs"><a href="/">Home</a> › Hourly to Salary Calculator</p>
+    <h1 class="page-title">Hourly to Salary Calculator</h1>
+    <p class="page-lede">Convert an hourly wage into weekly, biweekly, semi-monthly, monthly and annual pay — or go the other way and turn a salary offer into the hourly rate it really represents.</p>
+    <p class="updated">Last updated <time datetime="2026-11-18">18 November 2026</time></p>
+
+    <div class="ad-slot" data-ad="top" hidden></div>
+
+    <section class="calc" aria-labelledby="c1">
+      <h2 id="c1">Hourly wage → annual salary</h2>
+      <p class="hint">Annual figures update live. Use unpaid weeks to model seasonal work or contracting.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="rate">Hourly rate</label>
+          <input id="rate" type="number" inputmode="decimal" min="0" step="0.01" value="25">
+        </div>
+        <div class="field">
+          <label for="hpd">Hours per day</label>
+          <input id="hpd" type="number" inputmode="decimal" min="1" max="24" step="0.5" value="8">
+        </div>
+        <div class="field">
+          <label for="hpw">Days per week</label>
+          <input id="hpw" type="number" inputmode="decimal" min="1" max="7" step="0.5" value="5">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="wk">Weeks worked per year</label>
+          <input id="wk" type="number" inputmode="decimal" min="1" max="52" step="1" value="52">
+        </div>
+        <div class="field">
+          <label for="unpaid">Unpaid weeks off <span class="sub">(holidays, gap, off-season)</span></label>
+          <input id="unpaid" type="number" inputmode="decimal" min="0" max="51" step="1" value="0">
+        </div>
+        <div class="field">
+          <label for="ot">Regular overtime hours/week <span class="sub">(optional)</span></label>
+          <input id="ot" type="number" inputmode="decimal" min="0" max="80" step="0.5" value="0">
+        </div>
+      </div>
+
+      <div class="results" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Annual gross salary</span>
+          <span class="value" id="r-year">$52,000.00</span>
+        </div>
+        <div class="kv">
+          <div class="kv-row"><span class="k">Paid hours per year</span><span class="v" id="r-hrs">2,080</span></div>
+          <div class="kv-row"><span class="k">Per day</span><span class="v" id="r-day">$200.00</span></div>
+          <div class="kv-row"><span class="k">Per week</span><span class="v" id="r-week">$1,000.00</span></div>
+          <div class="kv-row"><span class="k">Every two weeks (26 pay periods)</span><span class="v" id="r-bi">$2,000.00</span></div>
+          <div class="kv-row"><span class="k">Twice a month (24 pay periods)</span><span class="v" id="r-semi">$2,166.67</span></div>
+          <div class="kv-row total"><span class="k">Per month (annual ÷ 12)</span><span class="v" id="r-month">$4,333.33</span></div>
+          <div class="kv-row"><span class="k">Effective hourly across all paid hours</span><span class="v" id="r-eff">$25.00</span></div>
+          <div class="kv-row" id="row-ot" hidden><span class="k">Overtime added at 1.5×</span><span class="v" id="r-otadd">$0.00</span></div>
+        </div>
+        <p class="note">Gross figures before tax and deductions. Overtime rows assume 1.5× for hours above your normal weekly total — set the hours fields to your guaranteed schedule first if overtime is not reliable.</p>
+      </div>
+    </section>
+
+    <section class="calc" aria-labelledby="c2">
+      <h2 id="c2">Salary → implied hourly rate</h2>
+      <p class="hint">Useful when a salaried offer does not state the expected hours.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="sal">Annual salary</label>
+          <input id="sal" type="number" inputmode="decimal" min="0" step="100" value="65000">
+        </div>
+        <div class="field">
+          <label for="sh">Hours actually worked per week</label>
+          <input id="sh" type="number" inputmode="decimal" min="1" max="100" step="0.5" value="45">
+        </div>
+        <div class="field">
+          <label for="sw">Weeks worked per year</label>
+          <input id="sw" type="number" inputmode="decimal" min="1" max="52" step="1" value="50">
+        </div>
+      </div>
+      <div class="results" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Effective hourly rate</span>
+          <span class="value" id="s-hourly">$28.89</span>
+        </div>
+        <div class="kv">
+          <div class="kv-row"><span class="k">Hours worked per year</span><span class="v" id="s-hrs">2,250</span></div>
+          <div class="kv-row"><span class="k">Weekly equivalent</span><span class="v" id="s-week">$1,250.00</span></div>
+          <div class="kv-row"><span class="k">Equivalent hourly at a standard 2,080-hour year</span><span class="v" id="s-std">$31.25</span></div>
+        </div>
+        <p class="note">The second figure is what the same salary looks like on a 40-hour week. The gap between the two is the hidden cost of the extra hours.</p>
+      </div>
+    </section>
+
+    <div class="ad-slot" data-ad="mid" hidden></div>
+
+    <section class="prose">
+      <h2>The formula, and why 2,080 hours</h2>
+      <p>Converting an hourly wage to a salary is a multiplication, not a negotiation:</p>
+      <div class="formula">annual salary = hourly rate × hours per week × weeks per year<br>
+standard year = 40 hours × 52 weeks = 2,080 hours</div>
+      <p>Payroll systems and lenders use 2,080 hours because it is the simplest defensible baseline. It assumes you are paid for all 52 weeks, including public holidays and paid vacation. The moment you take unpaid time, the real number is lower, which is why the calculator asks for unpaid weeks separately.</p>
+      <p>At $25.00 an hour: $25.00 × 40 × 52 = <strong>$52,000</strong>. Divided by 12 that is $4,333.33 a month, or $2,000 per biweekly paycheque.</p>
+
+      <h3>Pay frequency and why the monthly number looks wrong</h3>
+      <p>A biweekly schedule produces 26 paycheques a year, not 24. Two months out of twelve contain three pay dates, so your monthly income is not annual ÷ 12 even though the annual total is exactly right. Semi-monthly pay — the 15th and the last day — gives 24 cheques and a genuinely fixed monthly amount. If you are budgeting around rent, use the semi-monthly figure or the smallest monthly amount, not the average.</p>
+
+      <div class="table-scroll">
+        <table>
+          <caption class="dyn-head" style="text-align:left;padding:8px 0">The same $52,000 salary across pay schedules</caption>
+          <thead><tr><th>Schedule</th><th class="num">Pay periods / yr</th><th class="num">Gross per paycheque</th></tr></thead>
+          <tbody>
+            <tr><td>Weekly</td><td class="num">52</td><td class="num">$1,000.00</td></tr>
+            <tr><td>Biweekly (every 2 weeks)</td><td class="num">26</td><td class="num">$2,000.00</td></tr>
+            <tr><td>Semi-monthly (15th &amp; last day)</td><td class="num">24</td><td class="num">$2,166.67</td></tr>
+            <tr><td>Monthly</td><td class="num">12</td><td class="num">$4,333.33</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>What the annual figure leaves out</h3>
+      <p>Annual gross salary is the top line. The number that matters for a decision is usually one of these:</p>
+      <ul>
+        <li><strong>Total compensation</strong> — gross salary plus employer pension contributions, health insurance premium share, and any guaranteed bonus.</li>
+        <li><strong>Take-home pay</strong> — after federal income tax, state income tax, Social Security and Medicare (7.65% combined in the US), and any benefit deductions.</li>
+        <li><strong>Effective hourly rate</strong> — total pay divided by hours actually worked, which is the only fair way to compare a 35-hour salaried role with a 50-hour one.</li>
+      </ul>
+
+      <h3>Salaried versus hourly: the trade you are making</h3>
+      <p>An hourly role pays for every hour and usually owes overtime after 40. A salaried exempt role pays the same for 40 hours or 55, and typically comes with paid leave, a predictable schedule, and benefits that hourly roles sometimes lack. Converting both to an effective hourly rate exposes the trade honestly: a $65,000 salary on a real 45-hour week for 50 weeks is $28.89 an hour, while $26 an hour on a guaranteed 40-hour week is $54,080 a year.</p>
+      <p>Neither is automatically better. What usually decides it is whether the salaried hours are genuinely 45 or quietly 55, and whether the hourly role guarantees hours during slow months.</p>
+
+      <h3>Part-time and seasonal conversions</h3>
+      <p>For 25 hours a week, the annual figure at $18.00 is $18.00 × 25 × 52 = $23,400. For a school-term job working 38 weeks, use 38 in the weeks field — the calculator will not assume you are paid across the summer. Contract and freelance work should be modelled with the <a href="/freelance-rate-calculator/">freelance rate calculator</a> instead, because unbillable admin time changes the maths completely.</p>
+
+      <h2>Frequently asked questions</h2>
+      <details class="faq"><summary>How many working hours are in a year?</summary><div class="faq-body"><p>2,080 for a standard 40-hour, 52-week year. Two unpaid weeks bring it to 2,000. Twenty-five hours a week is 1,300 hours.</p></div></details>
+      <details class="faq"><summary>Is $25 an hour a good salary?</summary><div class="faq-body"><p>It is $52,000 a year on a full-time schedule, about $4,333 gross a month. Whether that is comfortable depends on local rent, transport, and whether health insurance comes out of your pocket.</p></div></details>
+      <details class="faq"><summary>Does the annual figure include overtime?</summary><div class="faq-body"><p>The main result does not. Overtime is not guaranteed, so annualising it overstates recurring income. The optional overtime field shows the addition separately so you can see both numbers.</p></div></details>
+      <details class="faq"><summary>Should I use 52 weeks or 50?</summary><div class="faq-body"><p>52 if you are paid for every week. Fewer if you take unpaid leave, work seasonally, or bill clients only during term time.</p></div></details>
+      <details class="faq"><summary>How do I compare an hourly job with a salaried one?</summary><div class="faq-body"><p>Convert both to annual compensation, divide by realistic annual hours, then compare the effective rate. Add the value of paid leave, benefits, and schedule predictability before deciding.</p></div></details>
+      <details class="faq"><summary>Why is my monthly pay not annual divided by 12?</summary><div class="faq-body"><p>With biweekly pay you receive 26 cheques, so two months contain three pay dates. The annual total is still correct; only the monthly cash flow varies.</p></div></details>
+    </section>
+
+    <div class="ad-slot" data-ad="bottom" hidden></div>
+
+    <section class="related">
+      <h2>Related calculators</h2>
+      <ul>
+        <li><a href="/overtime-pay-calculator/">Overtime Pay Calculator</a></li>
+        <li><a href="/freelance-rate-calculator/">Freelance Rate Calculator</a></li>
+        <li><a href="/savings-goal-calculator/">Savings Goal with Inflation</a></li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="/" style="color:#fff"><span class="logo-mark">W</span>Workmath</a>
+        <p style="margin:10px 0 0;max-width:280px">Free, fast calculators for pay, hours, and personal targets. No accounts, no uploads.</p>
+      </div>
+      <div><h4>Calculators</h4><ul>
+        <li><a href="/overtime-pay-calculator/">Overtime pay</a></li>
+        <li><a href="/hourly-to-salary-calculator/">Hourly to salary</a></li>
+        <li><a href="/tip-split-calculator/">Tip split</a></li>
+        <li><a href="/sleep-debt-calculator/">Sleep debt</a></li>
+        <li><a href="/savings-goal-calculator/">Savings goal</a></li>
+        <li><a href="/freelance-rate-calculator/">Freelance rate</a></li>
+      </ul></div>
+      <div><h4>Site</h4><ul>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/privacy/">Privacy policy</a></li>
+        <li><a href="/terms/">Terms of use</a></li>
+      </ul></div>
+    </div>
+    <div class="legal">
+      &copy; <span data-year>2026</span> Workmath. Estimates are for planning only and are not tax, legal, or financial advice. Employment rules vary by jurisdiction and change over time — verify against your own payslip, contract, or a qualified professional.
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+<script>
+(function () {
+  function calc() {
+    var rate = PL.val('rate', 25, 0, 100000);
+    var hpd = PL.val('hpd', 8, 0, 24);
+    var dpw = PL.val('hpw', 5, 0, 7);
+    var wk = PL.val('wk', 52, 1, 52);
+    var unpaid = PL.val('unpaid', 0, 0, 51);
+    var ot = PL.val('ot', 0, 0, 80);
+
+    var paidWeeks = Math.max(wk - unpaid, 0);
+    var hpwTotal = hpd * dpw;
+    var hoursPerYear = hpwTotal * paidWeeks;
+    var baseYear = rate * hoursPerYear;
+    var otYear = ot * rate * 1.5 * paidWeeks;
+    var year = baseYear + otYear;
+    var week = hpwTotal * rate;
+
+    PL.set('r-year', PL.money(year));
+    PL.set('r-hrs', PL.num(hoursPerYear, 0));
+    PL.set('r-day', PL.money(rate * hpd));
+    PL.set('r-week', PL.money(week));
+    PL.set('r-bi', PL.money(year / 26));
+    PL.set('r-semi', PL.money(year / 24));
+    PL.set('r-month', PL.money(year / 12));
+    PL.set('r-eff', PL.money(hoursPerYear > 0 ? baseYear / hoursPerYear : 0));
+
+    var rowOt = document.getElementById('row-ot');
+    if (ot > 0) { rowOt.hidden = false; PL.set('r-otadd', PL.money(otYear)); }
+    else { rowOt.hidden = true; }
+  }
+
+  function calc2() {
+    var sal = PL.val('sal', 65000, 0, 1e9);
+    var sh = PL.val('sh', 45, 1, 100);
+    var sw = PL.val('sw', 50, 1, 52);
+    var hrs = sh * sw;
+    PL.set('s-hourly', PL.money(hrs > 0 ? sal / hrs : 0));
+    PL.set('s-hrs', PL.num(hrs, 0));
+    PL.set('s-week', PL.money(sal / sw));
+    PL.set('s-std', PL.money(sal / 2080));
+  }
+
+  PL.watch(['rate', 'hpd', 'hpw', 'wk', 'unpaid', 'ot'], calc);
+  PL.watch(['sal', 'sh', 'sw'], calc2);
+})();
+</script>
+  <script src="/ads.js" defer></script>
+</body>
+</html>

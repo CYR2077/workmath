@@ -1,0 +1,76 @@
+# Workmath
+
+六个面向海外流量的计算器工具站，纯静态，GitHub + Cloudflare Pages 零成本部署，Google AdSense 变现。除域名外没有其他支出。
+
+**完整上线流程见 [DEPLOY.md](DEPLOY.md)** —— 买域名、推 GitHub、连 Cloudflare Pages、过 AdSense 审核、接广告、算收益，逐步都在里面。
+
+---
+
+## 六个工具
+
+| 页面 | 路径 | 核心能力 |
+|---|---|---|
+| 加班费计算 | `/overtime-pay-calculator/` | 常规工时与加班溢价分离、1.5×/2×、有效时薪、年化 |
+| 时薪转年薪 | `/hourly-to-salary-calculator/` | 多种发薪周期换算，反向从年薪推实际时薪 |
+| 按工时分小费 | `/tip-split-calculator/` | 按工时或点数分配，精确到分，可整元取整且总额不变 |
+| 睡眠负债 | `/sleep-debt-calculator/` | 7/10/14/30 天累计缺口、恢复计划、科学免责说明 |
+| 通胀后储蓄目标 | `/savings-goal-calculator/` | 今日购买力 → 名义终值 → 每月存款，含反向求解年限 |
+| 自由职业报价 | `/freelance-rate-calculator/` | 目标收入 → 最低时薪，含可计费比例、日费、项目报价 |
+
+## 技术形态
+
+- **纯 HTML / CSS / 原生 JS**，无框架、无构建、无依赖、无后端。
+- 全站 CSS 一个文件 12KB，共享脚本 5KB。首屏无阻塞资源。
+- 所有计算在浏览器本地完成，用户输入永不上传 —— 这同时是隐私政策里最实在的一句话。
+- 八种货币一键切换，偏好存在本地 `localStorage`。
+- 每个工具页自带公式、算例、法规对照表、6 条 FAQ 和 JSON-LD 结构化数据（`WebApplication` + `FAQPage` + `BreadcrumbList`）。这不是装饰，是 AdSense 判定"非低价值内容"的依据。
+
+## 目录
+
+```
+index.html                     首页
+styles.css  app.js  ads.js     共享资源
+favicon.svg
+404.html
+sitemap.xml  robots.txt  ads.txt
+_headers  _redirects           Cloudflare Pages 配置
+overtime-pay-calculator/
+hourly-to-salary-calculator/
+tip-split-calculator/
+sleep-debt-calculator/
+savings-goal-calculator/
+freelance-rate-calculator/
+about/  contact/  privacy/  terms/
+tools/                         本地开发与回归测试脚本
+```
+
+## 本地预览
+
+```powershell
+cd D:\Developer\Toolwebsite
+node tools\server.js 8080
+# 打开 http://127.0.0.1:8080
+```
+
+## 改完计算逻辑后跑回归测试
+
+```powershell
+node tools\run-calc-tests.js     # 真实执行各页面脚本，核对每个计算结果
+node tools\check-syntax.js       # 校验所有 JS 与内联脚本语法
+```
+
+`run-calc-tests.js` 用一个最小 DOM 模拟真实执行页面里的内联脚本，不是复制公式重算。改动任何一个计算器后跑一遍，能立刻发现算错的输出。
+
+## 部署前必改
+
+1. **域名**：所有文件里的 `workmath.com` 换成你的域名（DEPLOY.md 第 5 节有批量替换命令）。
+2. **邮箱**：`hello@workmath.com`、`privacy@workmath.com` 换成能真实收信的地址（Cloudflare Email Routing 免费转发）。
+3. **品牌**：如果不用 Workmath，改各页 `<title>`、logo 文字、footer。
+4. **ads.txt**：过审后填真实 `pub-` 发布商 ID。
+5. **ads.js**：过审后在 `CLIENT` 和 `SLOTS` 里填 AdSense 的值。
+
+前四项在上线前做，后两项在 AdSense 审核通过后做。审核期间 `ads.js` 的 `CLIENT` 必须保持为空字符串 —— 页面上的广告位会保持隐藏，审核员不会看到空白广告框。
+
+## 免责
+
+页面上的估算仅供规划参考，不构成税务、法律、财务或医疗建议。就业法规按司法辖区不同且会变动，各页正文已标注规则来源与更新日期，实际决策前请以合同、工资单或当地主管部门为准。

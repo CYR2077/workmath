@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tip Split Calculator by Hours Worked — Fair Tip Pool Distribution</title>
+<meta name="description" content="Split a tip pool between staff by hours worked or by points. Enter the tips collected and each person's shift hours to get an exact per-person share and tip-per-hour rate.">
+<link rel="canonical" href="https://workmath.com/tip-split-calculator/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0b1020">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tip Split Calculator by Hours Worked">
+<meta property="og:description" content="Divide a tip pool fairly by shift hours or points, with per-person shares and tip-per-hour rates.">
+<meta property="og:url" content="https://workmath.com/tip-split-calculator/">
+<meta property="og:site_name" content="Workmath">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"Tip Split Calculator by Hours Worked","url":"https://workmath.com/tip-split-calculator/","applicationCategory":"BusinessApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Split a pooled tip amount between employees proportionally to hours worked or weighted points."},
+{"@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://workmath.com/"},
+{"@type":"ListItem","position":2,"name":"Tip Split Calculator","item":"https://workmath.com/tip-split-calculator/"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Should tips be split by hours or equally?","acceptedAnswer":{"@type":"Answer","text":"Splitting by hours worked is the most common and the most defensible method for a pooled house, because the person who worked the double shift contributed to more of the pool. Equal splits are simpler but tend to push people away from long or slow shifts. Weighted points are used when roles contribute differently, for example a bartender at 1.25 points per hour against a server at 1.0."}},
+{"@type":"Question","name":"Can managers or owners take part in a tip pool?","acceptedAnswer":{"@type":"Answer","text":"Under US federal rules, managers and supervisors may not receive tips from a pool that includes customarily tipped employees. In states that do not allow the tip credit, the employer may not keep any part of employee tips at all. Including a manager in the pool, even with a small percentage, exposes the business to back-pay claims."}},
+{"@type":"Question","name":"Do I have to report pooled tips for tax?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tips received through a pool are taxable income to the employee who receives them, whether they arrive as cash or on a payslip. In the US, employees report tips of $20 or more in a month to the employer on Form 4070, and larger employers file Form 8027. In the UK, tips distributed through a payroll system are subject to income tax and National Insurance, while direct cash tips are handled differently."}},
+{"@type":"Question","name":"Are tips counted in overtime calculations?","acceptedAnswer":{"@type":"Answer","text":"Generally no in the US when the employee keeps tips as their own property, because tips are excluded from the regular rate of pay. They do count if the employer uses the tip credit, because the credit is part of wages, and any service charge distributed by the employer is treated as wages rather than a tip."}},
+{"@type":"Question","name":"How do I split the pool without odd cents?","acceptedAnswer":{"@type":"Answer","text":"Divide exactly first, then round each share down to the nearest whole unit and give the remaining units to the largest shares. Rounding first and dividing second is what produces totals that do not add up. The calculator shows the exact split by default and offers a rounding option that keeps the total intact."}},
+{"@type":"Question","name":"What is tip-out versus a tip pool?","acceptedAnswer":{"@type":"Answer","text":"A tip-out is a portion of one employee's own tips passed to support staff — bar, busser, kitchen — usually as a fixed percentage of sales or tips. A tip pool collects all tips first and redistributes them by a formula. Tip-out is calculated from the individual's tips; a pool is calculated from the group total."}}]}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/"><span class="logo-mark">W</span>Workmath</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#tools">All tools</a>
+      <a href="/overtime-pay-calculator/">Overtime</a>
+      <a href="/hourly-to-salary-calculator/">Hourly&nbsp;→&nbsp;Salary</a>
+      <a href="/about/">About</a>
+      <select id="cur" data-currency-select aria-label="Currency" style="font:inherit;font-size:13px;padding:6px 8px;border:1px solid #d0d5dd;border-radius:8px;background:#fff;min-height:36px"></select>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <p class="crumbs"><a href="/">Home</a> › Tip Split Calculator</p>
+    <h1 class="page-title">Tip Split Calculator by Hours Worked</h1>
+    <p class="page-lede">Enter the pool and each person's shift hours. Everyone gets a share proportional to the time they put in, with the exact cent-level amount and their personal tip-per-hour rate.</p>
+    <p class="updated">Last updated <time datetime="2026-11-18">18 November 2026</time></p>
+
+    <div class="ad-slot" data-ad="top" hidden></div>
+
+    <section class="calc" aria-labelledby="c1">
+      <h2 id="c1">The pool</h2>
+      <p class="hint">Enter the total to be divided, or derive it from a bill and a tip percentage.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="bill">Bill or sales total <span class="sub">(optional)</span></label>
+          <input id="bill" type="number" inputmode="decimal" min="0" step="0.01" value="0">
+        </div>
+        <div class="field">
+          <label for="tippct">Tip percentage <span class="sub">(used with the bill)</span></label>
+          <input id="tippct" type="number" inputmode="decimal" min="0" max="100" step="0.5" value="18">
+        </div>
+        <div class="field">
+          <label for="pool">Tip pool total</label>
+          <input id="pool" type="number" inputmode="decimal" min="0" step="0.01" value="840">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="mode">Split method</label>
+          <select id="mode">
+            <option value="hours" selected>By hours worked</option>
+            <option value="points">By points (hours × role weight)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="rounding">Rounding</label>
+          <select id="rounding">
+            <option value="exact" selected>Exact (to the cent)</option>
+            <option value="whole">Round to whole units, keep total exact</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="calc" aria-labelledby="c2">
+      <h2 id="c2">Who worked</h2>
+      <p class="hint" id="weight-hint">Weights are ignored in hours mode. Switch to points to use them.</p>
+
+      <div class="dyn-head" id="dyn-head">
+        <span style="display:grid;grid-template-columns:1.4fr .8fr .8fr auto;gap:8px">
+          <span>Name</span><span>Hours</span><span>Weight</span><span></span>
+        </span>
+      </div>
+
+      <div id="staff"></div>
+
+      <div class="btn-row">
+        <button class="btn" type="button" id="add">+ Add person</button>
+        <button class="btn btn-ghost" type="button" id="clear">Reset list</button>
+      </div>
+    </section>
+
+    <section class="calc" aria-labelledby="c3">
+      <h2 id="c3">Result</h2>
+      <div class="results" style="border-top:0;padding-top:0;margin-top:0" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Total distributed</span>
+          <span class="value" id="r-total">$840.00</span>
+        </div>
+        <div class="table-scroll">
+          <table id="res-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th class="num">Hours</th>
+                <th class="num" id="th-weight">Weight</th>
+                <th class="num">Share</th>
+                <th class="num">Tip</th>
+                <th class="num">Per hour</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="err" id="r-err" hidden></div>
+        <p class="note">Nothing is uploaded — the calculation happens in this tab. Screenshot the table or use the copy button below to share the split with your team.</p>
+        <div class="btn-row"><button class="btn" type="button" id="copy">Copy split as text</button></div>
+      </div>
+    </section>
+
+    <div class="ad-slot" data-ad="mid" hidden></div>
+
+    <section class="prose">
+      <h2>How a tip pool is usually divided</h2>
+      <p>A pooled house collects tips into one pot and redistributes them by a written formula. The two methods that survive contact with a real rota are hours worked and weighted points.</p>
+
+      <h3>By hours worked</h3>
+      <div class="formula">share_i = pool × (hours_i ÷ total hours)</div>
+      <p>Simple, transparent, and hard to argue with. If the pool is $840 and the team worked 70 hours combined, each hour is worth $12.00. Someone who worked a 7-hour dinner shift takes $84.00; someone who did a 12-hour double takes $144.00.</p>
+      <p>The weakness is that hours are not contribution. Two servers can work the same five hours while one turns eight tables and the other turns three. Most houses accept that, because the alternative is a judgement call that someone has to make every night.</p>
+
+      <h3>By points</h3>
+      <div class="formula">points_i = hours_i × role weight<br>
+share_i = pool × (points_i ÷ total points)</div>
+      <p>Points fix the role problem: a bartender on 1.25 points per hour, a server on 1.0, a busser on 0.75. A bartender working 6 hours earns 7.5 points; a server working 8 hours earns 8.0. The bartender still takes home less, but less by a much smaller margin than raw hours would produce.</p>
+      <p>Whatever weights you choose, they belong in writing and they belong in the same document every shift. Retroactive weighting is the fastest way to lose a team.</p>
+
+      <h3>Why the cents never add up on paper</h3>
+      <p>If three people split $100 three ways the exact shares are $33.333… each. Round each to $33.33 and you are a cent short. Pay two at $33.33 and one at $33.34 and everybody can see who got the extra cent. The practical rule: calculate exact shares, round down, then hand the leftover cents to the largest shares first. The calculator's whole-unit rounding option does exactly this so the total always lands on the pool amount.</p>
+
+      <h2>What the law allows</h2>
+      <p>The rules below apply to pooled tips in the US and the UK. They are the two markets most searches come from, and they differ in ways that catch people out.</p>
+
+      <h3>United States</h3>
+      <ul>
+        <li><strong>Who may participate.</strong> A pool may only include employees who customarily and regularly receive tips. Managers and supervisors may not take a share, even a token one.</li>
+        <li><strong>Tip credit states.</strong> Where the employer takes a tip credit against the minimum wage, the employer may not keep any portion of tips. In states that abolished the tip credit, all tips belong to the employees regardless.</li>
+        <li><strong>Service charges.</strong> An automatic 18% service charge on a large party is not a tip under federal rules — it is employer revenue, and how it is distributed is a matter of policy, not tip law. Some states treat it differently, so label it honestly on the menu.</li>
+        <li><strong>Records.</strong> Keep the pool formula, the hours, and the distribution. A written policy is the difference between a clerical dispute and a wage claim.</li>
+      </ul>
+
+      <h3>United Kingdom</h3>
+      <p>The Employment (Allocation of Tips) Act 2023, in force since October 2024, requires employers to pass on 100% of tips, service charges and cover charges to workers, to allocate them fairly, and to keep a written policy. Agency workers are covered too. A statutory code of practice sets out what "fair" means and gives workers the right to request records and to bring a tribunal claim.</p>
+
+      <h3>Canada, Ireland, and Australia</h3>
+      <p>Ontario and Quebec have specific rules on tip pooling and employer deduction; British Columbia and Alberta rely more on employment standards and contract. Ireland's Payment of Wages Act and the 2022 tips legislation require electronic tips to be distributed fairly. Australia treats tips as voluntary and generally outside the award system, but a registered agreement can formalise a pool.</p>
+
+      <h2>A fair-pool checklist</h2>
+      <ol>
+        <li>Write the formula down and post it where the rota is posted.</li>
+        <li>Record actual hours, including side work and cleaning time.</li>
+        <li>Never let a supervisor or owner draw from the pool.</li>
+        <li>Distribute on the same schedule as payroll, not "when we get to it".</li>
+        <li>Show each person their own number, not just the total.</li>
+        <li>Keep the records for at least the statutory period — three years in most US jurisdictions.</li>
+      </ol>
+
+      <h2>Frequently asked questions</h2>
+      <details class="faq"><summary>Should tips be split by hours or equally?</summary><div class="faq-body"><p>Hours worked is the most defensible default. Equal splits are simpler and can suit a small team with identical shifts, but they penalise whoever takes the long or the quiet shift. Weighted points are the compromise when roles contribute differently.</p></div></details>
+      <details class="faq"><summary>Can managers or owners take part in a tip pool?</summary><div class="faq-body"><p>No under US federal rules. Managers and supervisors are excluded from pools that include customarily tipped employees, and in non-tip-credit states the employer may not retain any part of employee tips.</p></div></details>
+      <details class="faq"><summary>Do I have to report pooled tips for tax?</summary><div class="faq-body"><p>Yes. Pooled tips are taxable to the person who receives them. In the US, report $20 or more in a month to your employer on Form 4070. In the UK, tips run through payroll attract income tax and National Insurance.</p></div></details>
+      <details class="faq"><summary>Are tips counted in overtime calculations?</summary><div class="faq-body"><p>Usually not, because tips the employee keeps are excluded from the regular rate. They are included where the employer claims a tip credit, and mandatory service charges distributed by the employer count as wages.</p></div></details>
+      <details class="faq"><summary>How do I split the pool without odd cents?</summary><div class="faq-body"><p>Divide exactly, round each share down, then allocate the remaining units to the largest shares. Rounding every share to the nearest unit first is what makes the total drift.</p></div></details>
+      <details class="faq"><summary>What is tip-out versus a tip pool?</summary><div class="faq-body"><p>Tip-out passes a percentage of one person's own tips to support staff. A pool collects everything first and redistributes by formula. Different calculations, often different legal treatment.</p></div></details>
+    </section>
+
+    <div class="ad-slot" data-ad="bottom" hidden></div>
+
+    <section class="related">
+      <h2>Related calculators</h2>
+      <ul>
+        <li><a href="/overtime-pay-calculator/">Overtime Pay Calculator</a></li>
+        <li><a href="/hourly-to-salary-calculator/">Hourly to Salary Calculator</a></li>
+        <li><a href="/freelance-rate-calculator/">Freelance Rate Calculator</a></li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="/" style="color:#fff"><span class="logo-mark">W</span>Workmath</a>
+        <p style="margin:10px 0 0;max-width:280px">Free, fast calculators for pay, hours, and personal targets. No accounts, no uploads.</p>
+      </div>
+      <div><h4>Calculators</h4><ul>
+        <li><a href="/overtime-pay-calculator/">Overtime pay</a></li>
+        <li><a href="/hourly-to-salary-calculator/">Hourly to salary</a></li>
+        <li><a href="/tip-split-calculator/">Tip split</a></li>
+        <li><a href="/sleep-debt-calculator/">Sleep debt</a></li>
+        <li><a href="/savings-goal-calculator/">Savings goal</a></li>
+        <li><a href="/freelance-rate-calculator/">Freelance rate</a></li>
+      </ul></div>
+      <div><h4>Site</h4><ul>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/privacy/">Privacy policy</a></li>
+        <li><a href="/terms/">Terms of use</a></li>
+      </ul></div>
+    </div>
+    <div class="legal">
+      &copy; <span data-year>2026</span> Workmath. Estimates are for planning only and are not tax, legal, or financial advice. Employment rules vary by jurisdiction and change over time — verify against your own payslip, contract, or a qualified professional.
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+<script>
+(function () {
+  var DEFAULT = [
+    { name: 'Alex', hours: 8, weight: 1 },
+    { name: 'Priya', hours: 6, weight: 1 },
+    { name: 'Sam', hours: 5.5, weight: 1 },
+    { name: 'Jordan', hours: 7, weight: 1.25 }
+  ];
+
+  var staffEl = document.getElementById('staff');
+
+  function addRow(data) {
+    var row = document.createElement('div');
+    row.className = 'dyn-row';
+    row.innerHTML =
+      '<input type="text" class="p-name" placeholder="Name" maxlength="28" aria-label="Name">' +
+      '<input type="number" class="p-hours" min="0" max="24" step="0.25" inputmode="decimal" placeholder="0" aria-label="Hours worked">' +
+      '<input type="number" class="p-weight" min="0" max="10" step="0.05" inputmode="decimal" placeholder="1" aria-label="Role weight">' +
+      '<button type="button" class="btn btn-ghost p-del" aria-label="Remove person">\u00D7</button>';
+    row.querySelector('.p-name').value = data && data.name ? data.name : '';
+    row.querySelector('.p-hours').value = data && data.hours !== undefined ? data.hours : '';
+    row.querySelector('.p-weight').value = data && data.weight !== undefined ? data.weight : 1;
+    row.querySelector('.p-del').addEventListener('click', function () { row.remove(); recalc(); });
+    row.addEventListener('input', recalc);
+    staffEl.appendChild(row);
+    return row;
+  }
+
+  function reset() {
+    staffEl.innerHTML = '';
+    DEFAULT.forEach(addRow);
+    document.getElementById('pool').value = 840;
+    document.getElementById('bill').value = 0;
+    document.getElementById('mode').value = 'hours';
+    document.getElementById('rounding').value = 'exact';
+    recalc();
+  }
+
+  function readStaff() {
+    var out = [];
+    staffEl.querySelectorAll('.dyn-row').forEach(function (row) {
+      var name = row.querySelector('.p-name').value.trim() || 'Unnamed';
+      var h = parseFloat(row.querySelector('.p-hours').value);
+      var w = parseFloat(row.querySelector('.p-weight').value);
+      if (!isFinite(h) || h <= 0) return;
+      if (!isFinite(w) || w <= 0) w = 1;
+      out.push({ name: name, hours: h, weight: w });
+    });
+    return out;
+  }
+
+  function money0(n) { return PL.money(n, 2); }
+
+  function recalc() {
+    var bill = PL.val('bill', 0, 0, 1e9);
+    var pct = PL.val('tippct', 18, 0, 100);
+    var pool = PL.val('pool', 840, 0, 1e9);
+    var mode = document.getElementById('mode').value;
+    var rounding = document.getElementById('rounding').value;
+
+    if (bill > 0) {
+      pool = bill * pct / 100;
+      document.getElementById('pool').value = pool.toFixed(2);
+    }
+
+    var people = readStaff();
+    var tbody = document.querySelector('#res-table tbody');
+    tbody.innerHTML = '';
+    document.getElementById('th-weight').style.display = (mode === 'points') ? '' : '';
+    document.getElementById('weight-hint').textContent = (mode === 'points')
+      ? 'Points = hours × weight. Higher-weight roles take a larger slice of the same pool.'
+      : 'Weights are ignored in hours mode. Switch to points to use them.';
+
+    var err = document.getElementById('r-err');
+    if (people.length === 0) {
+      err.hidden = false; err.textContent = 'Add at least one person with hours greater than zero.';
+      PL.set('r-total', money0(0));
+      return;
+    }
+    err.hidden = true;
+
+    var totalPts = people.reduce(function (s, p) {
+      return s + (mode === 'points' ? p.hours * p.weight : p.hours);
+    }, 0);
+
+    var totalHours = people.reduce(function (s, p) { return s + p.hours; }, 0);
+
+    people.forEach(function (p) {
+      p.pts = mode === 'points' ? p.hours * p.weight : p.hours;
+      p.exact = totalPts > 0 ? pool * p.pts / totalPts : 0;
+      p.share = p.exact;
+    });
+
+    if (rounding === 'whole') {
+      var unit = 1;
+      var floored = people.map(function (p) { return Math.floor(p.exact / unit) * unit; });
+      var assigned = floored.reduce(function (a, b) { return a + b; }, 0);
+      var leftover = Math.round((pool - assigned) / unit);
+      var order = people.map(function (p, i) { return { i: i, frac: p.exact - floored[i] }; })
+        .sort(function (a, b) { return b.frac - a.frac; });
+      for (var k = 0; k < leftover && k < order.length; k++) floored[order[k].i] += unit;
+      people.forEach(function (p, i) { p.share = floored[i]; });
+    }
+
+    var distributed = people.reduce(function (s, p) { return s + p.share; }, 0);
+
+    people.forEach(function (p) {
+      var tr = document.createElement('tr');
+      var sharePct = totalPts > 0 ? (p.pts / totalPts * 100) : 0;
+      tr.innerHTML =
+        '<td>' + escapeHtml(p.name) + '</td>' +
+        '<td class="num">' + PL.num(p.hours, 2) + '</td>' +
+        '<td class="num">' + (mode === 'points' ? PL.num(p.weight, 2) : '\u2014') + '</td>' +
+        '<td class="num">' + PL.pct(sharePct, 1) + '</td>' +
+        '<td class="num"><strong>' + money0(p.share) + '</strong></td>' +
+        '<td class="num">' + money0(p.hours > 0 ? p.share / p.hours : 0) + '</td>';
+      tbody.appendChild(tr);
+    });
+
+    PL.set('r-total', money0(distributed));
+
+    var sumRow = document.createElement('tr');
+    sumRow.innerHTML =
+      '<td><strong>Total</strong></td>' +
+      '<td class="num"><strong>' + PL.num(totalHours, 2) + '</strong></td>' +
+      '<td class="num"><strong>' + (mode === 'points' ? PL.num(totalPts, 2) : '\u2014') + '</strong></td>' +
+      '<td class="num"><strong>100%</strong></td>' +
+      '<td class="num"><strong>' + money0(distributed) + '</strong></td>' +
+      '<td class="num">\u2014</td>';
+    tbody.appendChild(sumRow);
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  document.getElementById('add').addEventListener('click', function () {
+    var row = addRow({ name: '', hours: 0, weight: 1 });
+    row.querySelector('.p-name').focus();
+    recalc();
+  });
+  document.getElementById('clear').addEventListener('click', reset);
+
+  document.getElementById('copy').addEventListener('click', function () {
+    var lines = ['Tip pool split \u2014 ' + PL.money(PL.val('pool', 0, 0, 1e9))];
+    document.querySelectorAll('#res-table tbody tr').forEach(function (tr) {
+      var cells = Array.prototype.map.call(tr.children, function (td) { return td.textContent.trim(); });
+      lines.push(cells[0] + ': ' + cells[4] + ' (' + cells[1] + ' hrs)');
+    });
+    PL.copy(lines.join('\n'), this);
+  });
+
+  PL.watch(['bill', 'tippct', 'pool', 'mode', 'rounding'], recalc);
+
+  // seed
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', reset);
+  } else { reset(); }
+})();
+</script>
+  <script src="/ads.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+# robots.txt — Workmath
+# Replace workmath.com with your own domain before deploying.
+
+User-agent: *
+Allow: /
+Disallow: /404.html
+Disallow: /tools/
+
+# Ad crawlers must be able to reach the pages that carry ads.
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+Sitemap: https://workmath.com/sitemap.xml

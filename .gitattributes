@@ -1,0 +1,6 @@
+# Normalise to LF so the deployed files match what was tested
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

@@ -1,0 +1,19 @@
+# Cloudflare Pages redirects
+# Format: /from  /to  [status]
+# Keeps short/legacy URLs from becoming 404s once they get shared.
+
+/overtime                         /overtime-pay-calculator/       301
+/overtime-pay                     /overtime-pay-calculator/       301
+/hourly-to-salary                 /hourly-to-salary-calculator/   301
+/salary                           /hourly-to-salary-calculator/   301
+/tip-split                        /tip-split-calculator/          301
+/tips                             /tip-split-calculator/          301
+/sleep-debt                       /sleep-debt-calculator/         301
+/sleep                            /sleep-debt-calculator/         301
+/savings-goal                     /savings-goal-calculator/       301
+/savings                          /savings-goal-calculator/       301
+/freelance-rate                   /freelance-rate-calculator/     301
+/freelance                        /freelance-rate-calculator/     301
+/tools                            /#tools                         301
+/privacy-policy                   /privacy/                       301
+/terms-of-use                     /terms/                         301

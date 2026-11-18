@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overtime Pay Calculator — Weekly, Monthly &amp; Annual OT Pay</title>
+<meta name="description" content="Free overtime pay calculator. Enter your hourly rate and weekly hours to see regular pay, overtime premium, effective hourly rate, and annual gross for 1.5x and 2x rates.">
+<link rel="canonical" href="https://workmath.com/overtime-pay-calculator/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0b1020">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Overtime Pay Calculator — Weekly, Monthly &amp; Annual OT Pay">
+<meta property="og:description" content="Work out regular pay, overtime premium, and annual gross pay from your hourly rate and weekly hours.">
+<meta property="og:url" content="https://workmath.com/overtime-pay-calculator/">
+<meta property="og:site_name" content="Workmath">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"Overtime Pay Calculator","url":"https://workmath.com/overtime-pay-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Calculate regular pay, overtime pay at 1.5x or 2x, and annual gross pay from an hourly rate and weekly hours."},
+{"@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://workmath.com/"},
+{"@type":"ListItem","position":2,"name":"Overtime Pay Calculator","item":"https://workmath.com/overtime-pay-calculator/"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is overtime always 1.5 times my hourly rate?","acceptedAnswer":{"@type":"Answer","text":"Under the US Fair Labor Standards Act the federal minimum is 1.5 times your regular rate of pay for hours over 40 in a workweek. Some states set a higher rate or require double time, and an employer can pay more than the legal minimum. Your regular rate is not always your base hourly wage: non-discretionary bonuses, shift differentials, and production bonuses are folded in before the multiplier is applied."}},
+{"@type":"Question","name":"Does overtime start after 8 hours a day or 40 hours a week?","acceptedAnswer":{"@type":"Answer","text":"Federal law only requires weekly overtime after 40 hours. Daily overtime after 8 hours is a state rule, required in California, Alaska, Nevada for lower-paid workers, and Colorado above 12 hours. If you live in one of those states, both the daily and weekly tests apply and you are owed whichever calculation pays more."}},
+{"@type":"Question","name":"How do I calculate my effective hourly rate with overtime?","acceptedAnswer":{"@type":"Answer","text":"Divide total weekly pay by total hours worked. If you earn 20 per hour and work 45 hours, you are paid 800 for the first 40 hours plus 150 for the 5 overtime hours, so 950 divided by 45 hours is 21.11 per hour. That number is useful for comparing a salaried offer against an hourly job with regular overtime."}},
+{"@type":"Question","name":"Are salaried employees entitled to overtime?","acceptedAnswer":{"@type":"Answer","text":"Only if they are non-exempt. To be exempt under federal rules an employee generally must be paid a fixed salary above the salary threshold, be paid on a salary basis regardless of days worked, and perform executive, administrative, professional, outside sales, or computer duties. Job titles do not decide exemption status, and misclassifying someone as exempt does not remove the obligation to pay overtime."}},
+{"@type":"Question","name":"Can my employer give comp time instead of overtime pay?","acceptedAnswer":{"@type":"Answer","text":"For private employers in the United States, generally no. Compensatory time off in place of overtime cash is only lawful for public sector employees under specific rules. Some employers offer flexible scheduling inside the same workweek so that hours never exceed 40, which is different from banking comp time across weeks."}},
+{"@type":"Question","name":"How is overtime calculated for two jobs or a fluctuating schedule?","acceptedAnswer":{"@type":"Answer","text":"Overtime is calculated per employer, per workweek. Two separate employers do not combine hours. If one employer pays you two different rates in the same week, the regular rate is the weighted average of those rates, and the overtime premium is half of that average on top of the straight-time pay already earned for the overtime hours."}}]}
+]}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/"><span class="logo-mark">W</span>Workmath</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#tools">All tools</a>
+      <a href="/hourly-to-salary-calculator/">Hourly&nbsp;→&nbsp;Salary</a>
+      <a href="/tip-split-calculator/">Tip&nbsp;Split</a>
+      <a href="/about/">About</a>
+      <select id="cur" data-currency-select aria-label="Currency" style="font:inherit;font-size:13px;padding:6px 8px;border:1px solid #d0d5dd;border-radius:8px;background:#fff;min-height:36px"></select>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <p class="crumbs"><a href="/">Home</a> › Overtime Pay Calculator</p>
+    <h1 class="page-title">Overtime Pay Calculator</h1>
+    <p class="page-lede">Enter your hourly rate and the hours you actually worked this week. The calculator separates straight time from the overtime premium, then annualises the result so you can compare it against a salary offer.</p>
+    <p class="updated">Last updated <time datetime="2026-11-18">18 November 2026</time></p>
+
+    <div class="ad-slot" data-ad="top" hidden></div>
+
+    <section class="calc" aria-labelledby="calc-h">
+      <h2 id="calc-h">Your weekly overtime</h2>
+      <p class="hint">Figures update as you type. Everything stays in your browser.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="rate">Hourly base rate</label>
+          <input id="rate" type="number" inputmode="decimal" min="0" step="0.01" value="20">
+        </div>
+        <div class="field">
+          <label for="hours">Total hours worked this week</label>
+          <input id="hours" type="number" inputmode="decimal" min="0" max="168" step="0.25" value="45">
+        </div>
+        <div class="field">
+          <label for="threshold">Weekly overtime threshold <span class="sub">(hours)</span></label>
+          <input id="threshold" type="number" inputmode="decimal" min="1" max="168" step="0.5" value="40">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="mult">Overtime multiplier</label>
+          <select id="mult">
+            <option value="1.5" selected>1.5× (federal minimum)</option>
+            <option value="2">2× (double time)</option>
+            <option value="1.75">1.75×</option>
+            <option value="1.25">1.25×</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="dt">Double-time after <span class="sub">(hours/day, 0 = off)</span></label>
+          <input id="dt" type="number" inputmode="decimal" min="0" max="24" step="0.5" value="0">
+        </div>
+        <div class="field">
+          <label for="weeks">Weeks worked per year</label>
+          <input id="weeks" type="number" inputmode="decimal" min="1" max="52" step="1" value="52">
+        </div>
+      </div>
+
+      <div class="results" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Gross pay this week</span>
+          <span class="value" id="r-week">$950.00</span>
+        </div>
+
+        <div class="kv">
+          <div class="kv-row"><span class="k">Regular hours</span><span class="v" id="r-regh">40.00</span></div>
+          <div class="kv-row"><span class="k">Overtime hours at <span id="r-mult">1.5</span>×</span><span class="v" id="r-oth">5.00</span></div>
+          <div class="kv-row"><span class="k">Straight-time pay</span><span class="v" id="r-straight">$800.00</span></div>
+          <div class="kv-row"><span class="k">Overtime pay</span><span class="v" id="r-otpay">$150.00</span></div>
+          <div class="kv-row"><span class="k">Overtime premium <span class="sub" style="font-weight:400">(the extra above straight time)</span></span><span class="v" id="r-premium">$50.00</span></div>
+          <div class="kv-row total"><span class="k">Effective hourly rate</span><span class="v" id="r-eff">$21.11</span></div>
+          <div class="kv-row"><span class="k">Monthly gross (avg)</span><span class="v" id="r-month">$4,116.67</span></div>
+          <div class="kv-row total"><span class="k">Annual gross at <span id="r-weeks">52</span> weeks</span><span class="v" id="r-year">$49,400.00</span></div>
+        </div>
+        <div class="err" id="r-err" hidden></div>
+        <p class="note">Gross pay only. Federal and state income tax, Social Security, Medicare, and any deductions your employer withholds are not subtracted here — use the take-home figure on your payslip, or apply your marginal rate to the annual total above.</p>
+      </div>
+    </section>
+
+    <div class="ad-slot" data-ad="mid" hidden></div>
+
+    <section class="prose">
+      <h2>How overtime pay is calculated</h2>
+      <p>US federal overtime comes from the Fair Labor Standards Act (FLSA). It sets a floor, not a ceiling: 1.5 times the employee's <em>regular rate of pay</em> for every hour worked beyond 40 in a single workweek. An employer may pay more, and several states do require more, but nobody covered by the Act may pay less.</p>
+
+      <div class="formula">weekly gross = (regular hours × rate) + (overtime hours × rate × multiplier)<br>
+overtime premium = overtime hours × rate × (multiplier − 1)</div>
+
+      <p>The distinction between <strong>overtime pay</strong> and <strong>overtime premium</strong> matters more than it looks. Your regular rate already covers every hour you worked, so the extra cost of overtime is only the half-time portion. When you are comparing two job offers, the premium is the number that tells you what those extra hours are actually worth to you.</p>
+
+      <h3>A worked example</h3>
+      <p>You earn $20.00 an hour and work 45 hours in a week. The first 40 hours are straight time: 40 × $20.00 = $800.00. The remaining 5 hours are paid at 1.5×: 5 × $30.00 = $150.00. Total gross is $950.00, and your effective hourly rate across all 45 hours is $950.00 ÷ 45 = $21.11.</p>
+      <p>Notice that the five overtime hours raised your average rate by only $1.11, not by $10.00. This is the single most common place people go wrong when they mentally "add time and a half" to a weekly figure.</p>
+
+      <h3>Your regular rate is not always your hourly wage</h3>
+      <p>The FLSA regular rate includes more than the base rate. It generally covers:</p>
+      <ul>
+        <li>Shift differentials for evenings, nights, or weekends</li>
+        <li>Non-discretionary bonuses — production bonuses, attendance bonuses, commissions tied to a target</li>
+        <li>Longevity pay and certain incentive payments</li>
+        <li>Value of meals or lodging provided for the employer's convenience</li>
+      </ul>
+      <p>It generally excludes discretionary bonuses, expense reimbursements, gifts, holiday pay when no work is performed, and employer contributions to benefit plans. If your pay includes a shift differential or a recurring bonus, add it into the base rate field before calculating, or the overtime will be understated.</p>
+
+      <h3>Weekly versus daily overtime</h3>
+      <p>Federal law recognises only the workweek test. Some states add a daily test, which means you can be owed overtime for a long Tuesday even if the week totals 38 hours. Where both tests exist, you are paid under whichever produces the higher total for that week — not both, stacked.</p>
+
+      <div class="table-scroll">
+        <table>
+          <caption class="dyn-head" style="text-align:left;padding:8px 0">Selected state overtime rules (2026)</caption>
+          <thead>
+            <tr><th>State</th><th>Weekly rule</th><th>Daily rule</th><th>Double time</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Federal (FLSA)</td><td>&gt; 40 hrs at 1.5×</td><td>None</td><td>None required</td></tr>
+            <tr><td>California</td><td>&gt; 40 hrs at 1.5×</td><td>&gt; 8 hrs at 1.5×</td><td>&gt; 12 hrs/day; 7th consecutive day over 8 hrs</td></tr>
+            <tr><td>Alaska</td><td>&gt; 40 hrs at 1.5×</td><td>&gt; 8 hrs at 1.5×</td><td>None required</td></tr>
+            <tr><td>Nevada</td><td>&gt; 40 hrs at 1.5×</td><td>&gt; 8 hrs at 1.5× if pay &lt; 1.5× minimum wage</td><td>None required</td></tr>
+            <tr><td>Colorado</td><td>&gt; 40 hrs at 1.5×</td><td>&gt; 12 hrs at 1.5×</td><td>None required</td></tr>
+            <tr><td>New York</td><td>&gt; 40 hrs at 1.5×</td><td>Only for certain occupations</td><td>None required</td></tr>
+            <tr><td>Texas, Florida, and most others</td><td>&gt; 40 hrs at 1.5×</td><td>None</td><td>None required</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px;color:#667085">Rules change. Confirm the current statute or your state labor office before relying on this table for a dispute.</p>
+
+      <h2>Who is exempt and who is not</h2>
+      <p>Exemption is decided by duties and pay structure, not by a job title. Under the FLSA a salaried employee is generally exempt only when all three of these hold: they are paid a predetermined salary that does not change with quality or quantity of work, that salary meets the applicable threshold, and their primary duties are executive, administrative, professional, outside sales, or certain computer roles.</p>
+      <p>A "salaried" warehouse supervisor who spends most of the shift on the floor loading trucks is usually non-exempt and owed overtime, whatever the offer letter says. If you suspect misclassification, the practical evidence is your own timesheet — hours worked, dates, and the pay you actually received.</p>
+
+      <h2>Common overtime mistakes</h2>
+      <ul>
+        <li><strong>Averaging across two weeks.</strong> The workweek is fixed and seven days long. Forty-five hours one week and 35 the next is 5 hours of overtime, not zero.</li>
+        <li><strong>Ignoring "off the clock" work.</strong> Answering messages, finishing a shift handover, or clocking out then continuing is compensable time if the employer knew or should have known about it.</li>
+        <li><strong>Using the wrong base rate.</strong> Applying 1.5× to base pay while ignoring a shift differential understates the regular rate.</li>
+        <li><strong>Treating a fixed "overtime allowance" as satisfying the obligation.</strong> A flat stipend does not replace the legal premium unless it is genuinely computed on hours over the threshold.</li>
+        <li><strong>Forgetting the extra half on double-time states.</strong> In California, hours over 12 in a day are paid at 2× the regular rate — the calculator handles this once you set the double-time field.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <details class="faq"><summary>Is overtime always 1.5 times my hourly rate?</summary><div class="faq-body"><p>Under federal law the minimum is 1.5× your regular rate for hours over 40 in a workweek. States can set higher requirements, and an employer can voluntarily pay more. Your regular rate is not always your base wage, because non-discretionary bonuses and shift differentials are included in it.</p></div></details>
+      <details class="faq"><summary>Does overtime start after 8 hours a day or 40 hours a week?</summary><div class="faq-body"><p>Federally it is weekly only. Daily overtime after 8 hours is a state rule — California, Alaska, Nevada for lower-paid workers, and Colorado above 12 hours. In those states both tests run and you receive the higher amount.</p></div></details>
+      <details class="faq"><summary>How do I calculate my effective hourly rate with overtime?</summary><div class="faq-body"><p>Divide total weekly pay by total hours worked. At $20 an hour and 45 hours, that is $950 ÷ 45 = $21.11. It is the honest number to compare against a salaried offer that expects the same hours.</p></div></details>
+      <details class="faq"><summary>Are salaried employees entitled to overtime?</summary><div class="faq-body"><p>Only if they are non-exempt. Exemption depends on the salary basis, the salary level, and the duties test — not the job title. Misclassifying an employee does not remove the obligation.</p></div></details>
+      <details class="faq"><summary>Can my employer give comp time instead of overtime pay?</summary><div class="faq-body"><p>For private employers in the US, generally no. Comp time in lieu of overtime cash is limited to public sector employers under specific conditions. Adjusting a schedule inside the same workweek so hours stay at or below 40 is a different practice and is allowed.</p></div></details>
+      <details class="faq"><summary>How is overtime calculated for two jobs?</summary><div class="faq-body"><p>Separately per employer, per workweek. Hours from two different employers are not combined. If one employer pays you two rates in the same week, use the weighted average as the regular rate.</p></div></details>
+    </section>
+
+    <div class="ad-slot" data-ad="bottom" hidden></div>
+
+    <section class="related">
+      <h2>Related calculators</h2>
+      <ul>
+        <li><a href="/hourly-to-salary-calculator/">Hourly to Salary Calculator</a></li>
+        <li><a href="/tip-split-calculator/">Tip Split by Hours Worked</a></li>
+        <li><a href="/freelance-rate-calculator/">Freelance Rate Calculator</a></li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="/" style="color:#fff"><span class="logo-mark">W</span>Workmath</a>
+        <p style="margin:10px 0 0;max-width:280px">Free, fast calculators for pay, hours, and personal targets. No accounts, no uploads.</p>
+      </div>
+      <div><h4>Calculators</h4><ul>
+        <li><a href="/overtime-pay-calculator/">Overtime pay</a></li>
+        <li><a href="/hourly-to-salary-calculator/">Hourly to salary</a></li>
+        <li><a href="/tip-split-calculator/">Tip split</a></li>
+        <li><a href="/sleep-debt-calculator/">Sleep debt</a></li>
+        <li><a href="/savings-goal-calculator/">Savings goal</a></li>
+        <li><a href="/freelance-rate-calculator/">Freelance rate</a></li>
+      </ul></div>
+      <div><h4>Site</h4><ul>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/privacy/">Privacy policy</a></li>
+        <li><a href="/terms/">Terms of use</a></li>
+      </ul></div>
+    </div>
+    <div class="legal">
+      &copy; <span data-year>2026</span> Workmath. Estimates are for planning only and are not tax, legal, or financial advice. Employment rules vary by jurisdiction and change over time — verify against your own payslip, contract, or a qualified professional.
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+<script>
+(function () {
+  function calc() {
+    var rate = PL.val('rate', 20, 0, 100000);
+    var hours = PL.val('hours', 45, 0, 168);
+    var thr = PL.val('threshold', 40, 1, 168);
+    var mult = parseFloat(document.getElementById('mult').value) || 1.5;
+    var dtsel = PL.val('dt', 0, 0, 24);
+    var weeks = PL.val('weeks', 52, 1, 52);
+
+    var dtThreshold = dtsel > thr ? dtsel : Infinity;
+
+    var regH = Math.min(hours, thr);
+    var otH = Math.min(Math.max(hours - thr, 0), dtThreshold === Infinity ? Infinity : dtThreshold - thr);
+    var dtH = Math.max(hours - (dtThreshold === Infinity ? Infinity : dtThreshold), 0);
+
+    var straight = regH * rate;
+    var otPay = otH * rate * mult;
+    var dtPay = dtH * rate * 2;
+    var week = straight + otPay + dtPay;
+    var premium = otPay - (otH * rate) + (dtPay - (dtH * rate));
+    var eff = hours > 0 ? week / hours : 0;
+    var year = week * weeks;
+
+    PL.set('r-week', PL.money(week));
+    PL.set('r-regh', PL.num(regH, 2));
+    PL.set('r-oth', PL.num(otH + dtH, 2));
+    PL.set('r-mult', String(mult));
+    PL.set('r-straight', PL.money(straight));
+    PL.set('r-otpay', PL.money(otPay + dtPay));
+    PL.set('r-premium', PL.money(premium));
+    PL.set('r-eff', PL.money(eff));
+    PL.set('r-month', PL.money(year / 12));
+    PL.set('r-weeks', PL.num(weeks, 0));
+    PL.set('r-year', PL.money(year));
+
+    var err = document.getElementById('r-err');
+    if (hours > 168) { err.hidden = false; err.textContent = 'A week has 168 hours — check the hours field.'; }
+    else if (dtsel > 0 && dtsel <= thr) { err.hidden = false; err.textContent = 'Double-time threshold must be higher than the weekly threshold to take effect.'; }
+    else { err.hidden = true; err.textContent = ''; }
+  }
+  PL.watch(['rate', 'hours', 'threshold', 'mult', 'dt', 'weeks'], calc);
+})();
+</script>
+  <script src="/ads.js" defer></script>
+</body>
+</html>

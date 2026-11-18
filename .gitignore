@@ -1,0 +1,14 @@
+# OS noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# editors
+.vscode/
+.idea/
+*.swp
+
+# logs / temp
+*.log
+tmp/
+.tmp/

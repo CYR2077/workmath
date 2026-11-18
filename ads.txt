@@ -1,0 +1,6 @@
+# ads.txt — Workmath
+# Required by Google AdSense. Replace pub-0000000000000000 with your own
+# publisher ID (AdSense > Account > Account information > Publisher ID).
+# Keep the f08c47fec0942fa0 certification authority ID as-is: it identifies Google.
+
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
