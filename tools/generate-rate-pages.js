@@ -67,6 +67,42 @@ const RATES = [
     verdict: 'A strong hourly rate that few roles offer without a qualification behind it. Compare it against a salaried equivalent on effective hours, not on the headline.' }
 ];
 
+// ---------- 指南页反链配置 ----------
+// 每个费率页指向 2 篇最相关的指南，形成指南 <-> 费率页的双向内链
+const GUIDE_TITLES = {
+  'how-overtime-is-calculated-in-california': 'How overtime is calculated in California',
+  'hourly-vs-salary-which-pays-more': 'Hourly vs salary: which pays more?',
+  'how-to-split-tips-fairly': 'How to split tips fairly',
+  'what-is-a-good-freelance-rate': 'What is a good freelance rate?',
+  'how-long-does-it-take-to-recover-from-sleep-debt': 'How long sleep debt takes to recover',
+  'savings-goal-with-inflation-explained': 'Why savings goals need an inflation adjustment',
+  '40-hours-a-week-is-how-many-hours-a-year': '40 hours a week in hours per year',
+  'is-30-an-hour-good-money': 'Is $30 an hour good money?'
+};
+
+const GUIDE_LINKS = {
+  15: ['40-hours-a-week-is-how-many-hours-a-year', 'hourly-vs-salary-which-pays-more'],
+  16: ['40-hours-a-week-is-how-many-hours-a-year', 'hourly-vs-salary-which-pays-more'],
+  17: ['40-hours-a-week-is-how-many-hours-a-year', 'how-to-split-tips-fairly'],
+  18: ['how-to-split-tips-fairly', 'hourly-vs-salary-which-pays-more'],
+  19: ['how-to-split-tips-fairly', 'hourly-vs-salary-which-pays-more'],
+  20: ['how-to-split-tips-fairly', 'is-30-an-hour-good-money'],
+  21: ['how-to-split-tips-fairly', 'is-30-an-hour-good-money'],
+  22: ['hourly-vs-salary-which-pays-more', 'is-30-an-hour-good-money'],
+  23: ['hourly-vs-salary-which-pays-more', 'how-overtime-is-calculated-in-california'],
+  24: ['is-30-an-hour-good-money', 'savings-goal-with-inflation-explained'],
+  25: ['is-30-an-hour-good-money', 'savings-goal-with-inflation-explained'],
+  26: ['hourly-vs-salary-which-pays-more', 'savings-goal-with-inflation-explained'],
+  27: ['is-30-an-hour-good-money', 'how-overtime-is-calculated-in-california'],
+  28: ['40-hours-a-week-is-how-many-hours-a-year', 'is-30-an-hour-good-money'],
+  29: ['hourly-vs-salary-which-pays-more', 'is-30-an-hour-good-money'],
+  30: ['is-30-an-hour-good-money', '40-hours-a-week-is-how-many-hours-a-year'],
+  32: ['how-overtime-is-calculated-in-california', 'what-is-a-good-freelance-rate'],
+  35: ['how-overtime-is-calculated-in-california', 'what-is-a-good-freelance-rate'],
+  40: ['what-is-a-good-freelance-rate', 'savings-goal-with-inflation-explained'],
+  45: ['what-is-a-good-freelance-rate', 'how-long-does-it-take-to-recover-from-sleep-debt']
+};
+
 // ---------- 工具函数 ----------
 const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
 const money2 = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -193,6 +229,11 @@ function buildPage(entry, index) {
     .map(e => `<li><a href="/${slugOf(e.rate)}/">$${e.rate} an hour is how much a year?</a></li>`)
     .join('\n        ');
 
+  // 指南反链
+  const guideLinks = (GUIDE_LINKS[r] || [])
+    .map(slug => `<li><a href="/${slug}/">${GUIDE_TITLES[slug]}</a></li>`)
+    .join('\n        ');
+
   const jsonld = `{"@context":"https://schema.org","@graph":[
 {"@type":"WebPage","name":"${title.replace(/"/g, '\\"')}","url":"${url}","description":"${desc.replace(/"/g, '\\"')}","dateModified":"${UPDATED_ISO}","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"${BRAND}","url":"${SITE}/"}},
 {"@type":"BreadcrumbList","itemListElement":[
@@ -304,6 +345,7 @@ $${r}.00 × 40 × 52 = ${money(year)}</div>
       <ul>
         <li><a href="/hourly-to-salary-calculator/">Hourly to salary calculator</a></li>
         <li><a href="/overtime-pay-calculator/">Overtime pay calculator</a></li>
+        ${guideLinks}
         ${siblings}
       </ul>
     </section>
@@ -351,30 +393,7 @@ ${list}
 }
 
 // ---------- sitemap ----------
-const PAGES = [
-  { loc: '/', pri: '1.0', freq: 'weekly' },
-  { loc: '/overtime-pay-calculator/', pri: '0.9', freq: 'monthly' },
-  { loc: '/hourly-to-salary-calculator/', pri: '0.9', freq: 'monthly' },
-  { loc: '/tip-split-calculator/', pri: '0.9', freq: 'monthly' },
-  { loc: '/sleep-debt-calculator/', pri: '0.9', freq: 'monthly' },
-  { loc: '/savings-goal-calculator/', pri: '0.9', freq: 'monthly' },
-  { loc: '/freelance-rate-calculator/', pri: '0.9', freq: 'monthly' },
-  ...RATES.map(e => ({ loc: `/${slugOf(e.rate)}/`, pri: '0.7', freq: 'monthly' })),
-  { loc: '/about/', pri: '0.3', freq: 'yearly' },
-  { loc: '/contact/', pri: '0.3', freq: 'yearly' },
-  { loc: '/privacy/', pri: '0.3', freq: 'yearly' },
-  { loc: '/terms/', pri: '0.3', freq: 'yearly' }
-];
-
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${PAGES.map(p => `  <url>
-    <loc>${SITE}${p.loc}</loc>
-    <lastmod>${UPDATED_ISO}</lastmod>
-    <changefreq>${p.freq}</changefreq>
-    <priority>${p.pri}</priority>
-  </url>`).join('\n')}
-</urlset>
-`;
-fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap, 'utf8');
-console.log(`sitemap rebuilt: ${PAGES.length} urls`);
+// 交给扫描式生成器，避免此脚本的固定列表把指南页从 sitemap 里冲掉
+const { build: buildSitemap } = require('./build-sitemap.js');
+const urlCount = buildSitemap();
+console.log(`sitemap rebuilt: ${urlCount} urls`);

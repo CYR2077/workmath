@@ -423,6 +423,7 @@ floor rate     = revenue needed ÷ billable hours</div>
     related: [
       { text: 'Freelance rate calculator', href: '/freelance-rate-calculator/' },
       { text: 'Hourly to salary calculator', href: '/hourly-to-salary-calculator/' },
+      { text: 'Why savings goals need an inflation adjustment', href: '/savings-goal-with-inflation-explained/' },
       { text: 'Savings goal calculator with inflation', href: '/savings-goal-calculator/' },
       { text: '$45 an hour is how much a year?', href: '/45-an-hour-is-how-much-a-year/' }
     ]
