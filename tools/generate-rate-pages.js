@@ -182,8 +182,9 @@ function buildPage(entry, index) {
     return `<tr${isSelf ? ' style="background:#f3f7ff;font-weight:700"' : ''}><td>$${x}.00 an hour</td><td class="num">${money(yr)}</td><td class="num">${money(yr / 12)}</td></tr>`;
   }).join('\n              ');
 
-  // 50 小时/周的加班
-  const ot45 = r * 40 * 52 + r * 1.5 * 5 * 52;
+  // 45 小时/周的加班测算
+  const otWeek45 = r * 40 + r * 1.5 * 5;
+  const ot45 = otWeek45 * 52;
 
   // 相邻费率链接
   const siblings = RATES
@@ -201,8 +202,8 @@ function buildPage(entry, index) {
 {"@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"$${r} an hour is how much a year?","acceptedAnswer":{"@type":"Answer","text":"At $${r}.00 an hour for 40 hours a week, 52 weeks a year, you earn ${money(year)} a year before tax. That is ${money(month)} a month, ${money(biweek)} per biweekly paycheque, or ${money(week)} a week."}},
 {"@type":"Question","name":"$${r} an hour is how much a year after tax?","acceptedAnswer":{"@type":"Answer","text":"Social Security and Medicare take 7.65% of wages for most employees, which is ${money(fica)} on ${money(year)}. Federal income tax then depends on filing status and total income, and state tax depends on where you live. A single filer usually ends up somewhere between ${money(year * 0.78)} and ${money(year * 0.88)} in take-home pay, before any state tax."}},
-{"@type":"Question","name":"How much is $${r} an hour biweekly?","acceptedAnswer":{"@type":"Answer","text":"Eighty hours at $${r}.00 is ${money(biweek)} gross. That assumes a straight 40-hour week; overtime would be paid at $${money2(r * 1.5)} an hour on top."}},
-{"@type":"Question","name":"What does $${r} an hour come to with overtime?","acceptedAnswer":{"@type":"Answer","text":"At $${r}.00 an hour with five hours of overtime a week, you are paid ${money(r * 40)} for the first 40 hours plus ${money(r * 1.5 * 5)} for the overtime, which is ${money(ot45)} a week and ${money(ot45 * 52)} a year."}},
+{"@type":"Question","name":"How much is $${r} an hour biweekly?","acceptedAnswer":{"@type":"Answer","text":"Eighty hours at $${r}.00 is ${money(biweek)} gross. That assumes a straight 40-hour week; overtime would be paid at ${money2(r * 1.5)} an hour on top."}},
+{"@type":"Question","name":"What does $${r} an hour come to with overtime?","acceptedAnswer":{"@type":"Answer","text":"At $${r}.00 an hour with five hours of overtime a week, you are paid ${money(r * 40)} for the first 40 hours plus ${money2(r * 1.5 * 5)} for the overtime, which is ${money2(otWeek45)} a week and ${money(ot45)} a year."}},
 {"@type":"Question","name":"Is $${r} an hour good pay?","acceptedAnswer":{"@type":"Answer","text":"${entry.verdict.replace(/"/g, '\\"')}"}}]}
 ]}`;
 
@@ -276,11 +277,11 @@ $${r}.00 × 40 × 52 = ${money(year)}</div>
 
       <h2>What comes out before it reaches you</h2>
       <p>On ${money(year)} of gross wages, the deductions that apply to almost every US employee are Social Security at 6.2% and Medicare at 1.45% — 7.65% combined, or <strong>${money(fica)}</strong> a year at this rate. That part is not optional and does not vary by state.</p>
-      <p>Federal income tax is the variable one. It depends on your filing status, other household income, and the standard deduction for the year. A single filer earning ${money(year)} typically lands in the lowest bracket after the standard deduction, and may owe little or nothing. State income tax ranges from zero in nine states to over 9% in the highest-tax states. Benefits deductions — health insurance, retirement contributions — come out on top of that.</p>
+      <p>Federal income tax is the variable one. It depends on your filing status, other household income, and the standard deduction for the year. A single filer earning ${money(year)} takes the standard deduction and is taxed on what remains in graduated brackets starting at 10%, so the effective federal rate lands well below the top bracket they reach. State income tax ranges from nothing in nine states to over 9% in the highest-tax states, and benefits deductions — health insurance, retirement contributions — come out on top of that.</p>
       <p>A realistic planning range for take-home pay at this rate is <strong>${money(year * 0.78)} to ${money(year * 0.88)}</strong> before state tax. Use your own payslip for the real number; the range is for budgeting, not for filing.</p>
 
       <h2>Overtime changes the picture more than the rate does</h2>
-      <p>At $${r}.00 an hour, overtime is paid at $${money2(r * 1.5)}. Five extra hours a week — a 45-hour week — takes the annual figure from ${money(year)} to <strong>${money(ot45)}</strong>, an increase of ${money(ot45 - year)}. That is worth more than a $2 an hour raise at 40 hours.</p>
+      <p>At $${r}.00 an hour, overtime is paid at ${money2(r * 1.5)}. Five extra hours a week — a 45-hour week — takes the annual figure from ${money(year)} to <strong>${money(ot45)}</strong>, an increase of ${money(ot45 - year)}. That is worth more than a $2 an hour raise at 40 hours.</p>
       <p>Note that not every salaried role is exempt from overtime, and not every hourly role gets it. Federal law requires 1.5× for hours over 40 in a workweek for non-exempt employees; some states add a daily threshold. <a href="/overtime-pay-calculator/">Run your actual hours through the overtime calculator</a> if the number matters for a decision.</p>
 
       <h2>What $${r} an hour means in practice</h2>
@@ -290,8 +291,8 @@ $${r}.00 × 40 × 52 = ${money(year)}</div>
       <h2>Frequently asked questions</h2>
       <details class="faq"><summary>$${r} an hour is how much a year?</summary><div class="faq-body"><p>${money(year)} before tax at 40 hours a week for 52 weeks. That is ${money(month)} a month gross, ${money(biweek)} per biweekly paycheque, and ${money(week)} a week.</p></div></details>
       <details class="faq"><summary>$${r} an hour is how much a year after tax?</summary><div class="faq-body"><p>Social Security and Medicare take ${money(fica)} of that. Federal income tax depends on filing status and the standard deduction; state tax depends on where you live. Expect roughly ${money(year * 0.78)} to ${money(year * 0.88)} in take-home pay before state tax.</p></div></details>
-      <details class="faq"><summary>How much is $${r} an hour biweekly?</summary><div class="faq-body"><p>${money(biweek)} gross for 80 hours. With five hours of overtime in the period, add $${money2(r * 1.5 * 5)}.</p></div></details>
-      <details class="faq"><summary>What if I work 50 hours a week at $${r} an hour?</summary><div class="faq-body"><p>The first 40 hours pay ${money(r * 40)}; the 10 overtime hours pay $${money2(r * 1.5)} each, or ${money(r * 1.5 * 10)}. That is ${money(r * 40 + r * 1.5 * 10)} a week and ${money((r * 40 + r * 1.5 * 10) * 52)} a year, assuming the overtime is paid as federal law requires.</p></div></details>
+      <details class="faq"><summary>How much is $${r} an hour biweekly?</summary><div class="faq-body"><p>${money(biweek)} gross for 80 hours. With five hours of overtime in the period, add ${money2(r * 1.5 * 5)}.</p></div></details>
+      <details class="faq"><summary>What if I work 50 hours a week at $${r} an hour?</summary><div class="faq-body"><p>The first 40 hours pay ${money(r * 40)}; the 10 overtime hours pay ${money2(r * 1.5)} each, or ${money(r * 1.5 * 10)}. That is ${money2(r * 40 + r * 1.5 * 10)} a week and ${money((r * 40 + r * 1.5 * 10) * 52)} a year, assuming the overtime is paid as federal law requires.</p></div></details>
       <details class="faq"><summary>Is $${r} an hour good pay?</summary><div class="faq-body"><p>${entry.verdict}</p></div></details>
       <details class="faq"><summary>How do I compare $${r} an hour to a salary offer?</summary><div class="faq-body"><p>Convert the salary to an effective hourly rate by dividing it by the hours you will really work, not by 2,080. A $${Math.round(year / 1000)}k salary on a genuine 45-hour week is $${((year / 45 / 50).toFixed(2))} an hour over 50 working weeks — compare that against $${r}.00 with guaranteed hours.</p></div></details>
     </section>

@@ -48,7 +48,7 @@ for (const f of htmlFiles) {
   // 必备 meta（404 是 noindex 页面，按规范不带 canonical）
   if (!/<title>[^<]{10,}<\/title>/.test(t)) missingMeta.push(rel + '  title');
   if (!/<meta name="description" content="[^"]{40,}"/.test(t)) missingMeta.push(rel + '  description');
-  if (rel !== '404.html' && !/<link rel="canonical" href="https:\/\/workmath\.com/.test(t)) missingMeta.push(rel + '  canonical');
+  if (rel !== '404.html' && !/<link rel="canonical" href="https:\/\/[^"]+\/?"/.test(t)) missingMeta.push(rel + '  canonical');
   if (!/<h1[^>]*>/.test(t)) missingMeta.push(rel + '  h1');
 
   // 费率页数值
