@@ -1,4 +1,4 @@
-# Workmath 部署手册 — 除域名外零成本
+﻿# Workmath 部署手册 — 除域名外零成本
 
 一套静态工具站 + Google AdSense 的完整落地流程。技术栈刻意压到最低：纯 HTML/CSS/JS，无框架、无构建、无数据库、无后端。
 
@@ -61,7 +61,7 @@ D:\Developer\Toolwebsite\
 选域名的实际考量：
 
 - `.com` 最稳，其次 `.io`、`.app`、`.co`。别用 `.xyz`、`.top` —— AdSense 审核对垃圾后缀有隐性偏见。
-- 名字要能扩展。`overtimecalculator.com` 把路走死了，`workmath.com` 能继续加工具。
+- 名字要能扩展。`overtimecalculator.com` 把路走死了，`workmath.net` 能继续加工具。
 - 短、能拼、不含连字符。
 
 **重要**：买完立刻设好 DNS 交给 Cloudflare 托管（免费套餐），后面 Pages 绑定域名要用。
@@ -109,21 +109,21 @@ Cloudflare Dashboard → **Workers & Pages** → **Create** → **Pages** → **
 
 ## 4. 绑自定义域名
 
-Pages 项目 → **Custom domains** → **Set up a domain** → 输入 `workmath.com` 和 `www.workmath.com`。
+Pages 项目 → **Custom domains** → **Set up a domain** → 输入 `workmath.net` 和 `www.workmath.net`。
 
 Cloudflare 会自动加 CNAME 记录（域名已托管在同账号时是一键完成）。SSL 自动签发，无需操作。
 
-然后在 Cloudflare **Rules → Redirect Rules** 加一条：`www.workmath.com/*` → `https://workmath.com/$1`，301。避免两个域名造成重复内容。
+然后在 Cloudflare **Rules → Redirect Rules** 加一条：`www.workmath.net/*` → `https://workmath.net/$1`，301。避免两个域名造成重复内容。
 
 ---
 
 ## 5. 全局替换占位域名
 
-所有文件里写的是 `https://workmath.com`。换成你的域名：
+所有文件里写的是 `https://workmath.net`。换成你的域名：
 
 ```powershell
 cd D:\Developer\Toolwebsite
-$old = 'workmath.com'
+$old = 'workmath.net'
 $new = 'yourdomain.com'   # ← 改成你的
 
 Get-ChildItem -Recurse -File -Include *.html,*.xml,*.txt,*.js,_headers,_redirects |
@@ -181,7 +181,7 @@ Select-String -Path .\*.html,.\*\*.html -Pattern 'workmath' | Select-Object Path
 
 **② 确认每个页面有真实可读内容。** 打开任意工具页，向下滚：公式、算例、法规对照表、6 条 FAQ、相关工具链接。这是审核员唯一会看的东西。
 
-**③ 邮箱必须能收信。** 页面上写了 `hello@workmath.com` 和 `privacy@workmath.com`。用 **Cloudflare Email Routing** 免费建这两个地址并转发到你自己的 Gmail：
+**③ 邮箱必须能收信。** 页面上写了 `hello@workmath.net` 和 `privacy@workmath.net`。用 **Cloudflare Email Routing** 免费建这两个地址并转发到你自己的 Gmail：
 
 > Cloudflare Dashboard → 你的域名 → Email → Email Routing → 启用 → 添加自定义地址 `hello@yourdomain.com` → 目标填你的 Gmail → 在 Gmail 收确认信点确认。
 
@@ -337,7 +337,7 @@ AdSense 付款门槛 $100，累计到才会转出。别指望第一个月见钱�
 
 部署前逐条打勾：
 
-- [ ] 全局替换了 `workmath.com` → 你的域名（用第 5 节的命令，然后 `Select-String` 验证零结果）
+- [ ] 全局替换了 `workmath.net` → 你的域名（用第 5 节的命令，然后 `Select-String` 验证零结果）
 - [ ] 站点名/logo 文字已改为你的品牌
 - [ ] `hello@` 和 `privacy@` 邮箱已通过 Cloudflare Email Routing 转发并能收信
 - [ ] `www` → 非 `www` 的 301 已配置
@@ -397,3 +397,40 @@ Get-ChildItem -Recurse -Filter *.html | ForEach-Object {
   }
 } | Format-Table -AutoSize
 ```
+
+---
+
+## 14. 实际部署记录（2026-11-18）
+
+本站已上线，以下是真实落地的配置，供后续核对。
+
+| 项目 | 实际值 |
+|---|---|
+| 域名 | `workmath.net`（NameSilo 注册，$15.95/年锁价） |
+| DNS | Cloudflare，NS = `walk.ns.cloudflare.com` / `guy.ns.cloudflare.com` |
+| 托管 | Cloudflare Pages，项目名 `workmath-b4r` |
+| 构建 | 无构建步骤，输出目录 `/` |
+| 源仓库 | `github.com/CYR2077/workmath`，分支 `main` |
+| 页面数 | 32 个 HTML，sitemap 31 条 URL |
+
+已验证的行为：
+
+- `https://workmath.net/` 返回 200，`_headers` 的 CSP / HSTS / nosniff / X-Frame / Referrer / Permissions 全部生效
+- `https://www.workmath.net/*` → 301 → `https://workmath.net/*`，路径完整保留（Redirect Rule: 通配符模式 `https://www.workmath.net/*` → `https://workmath.net/${1}`）
+- `_redirects` 短链生效（`/overtime` → 301 → `/overtime-pay-calculator/`）
+- 未知路径返回 HTTP 404 + 自定义 404 页面
+- `ads.txt` / `robots.txt` / `sitemap.xml` 均可访问
+- push 后约 50 秒 Pages 自动部署完成
+
+踩过的两个坑，记下来避免重犯：
+
+1. **`set-domain.js` 会替换自身** —— 它把 `.js` 文件也纳入替换范围，包括自己，导致 `OLD_DOMAIN` 常量被改写，第二次运行变成空操作。现已排除自身，并在零替换时直接报错退出。
+2. **Cloudflare Redirect Rule 的捕获组** —— 通配符 `https://*.workmath.net/*` 有两个 `*`，目标里必须用 `${2}`（路径）而不是 `${1}`（子域）。用单星号 `https://www.workmath.net/*` 配 `${1}` 最不容易错。
+
+剩余待办：
+
+- [ ] Search Console 添加 Domain 资源（DNS TXT 验证），提交 `sitemap.xml`
+- [ ] Bing Webmaster Tools 提交
+- [ ] Cloudflare Web Analytics 开启
+- [ ] `hello@workmath.net` / `privacy@workmath.net` 用 Cloudflare Email Routing 转发到 Gmail
+- [ ] 上线满 2–4 周、Search Console 有索引数据后申请 AdSense

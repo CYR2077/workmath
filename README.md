@@ -1,4 +1,4 @@
-# Workmath
+﻿# Workmath
 
 六个面向海外流量的计算器工具站，纯静态，GitHub + Cloudflare Pages 零成本部署，Google AdSense 变现。除域名外没有其他支出。
 
@@ -75,8 +75,8 @@ node tools\validate-site.js         # 校验全站内链、meta、以及每页�
 
 ## 部署前必改
 
-1. **域名**：所有文件里的 `workmath.com` 换成你的域名（DEPLOY.md 第 5 节有批量替换命令）。
-2. **邮箱**：`hello@workmath.com`、`privacy@workmath.com` 换成能真实收信的地址（Cloudflare Email Routing 免费转发）。
+1. **域名**：所有文件里的 `workmath.net` 换成你的域名（DEPLOY.md 第 5 节有批量替换命令）。
+2. **邮箱**：`hello@workmath.net`、`privacy@workmath.net` 换成能真实收信的地址（Cloudflare Email Routing 免费转发）。
 3. **品牌**：如果不用 Workmath，改各页 `<title>`、logo 文字、footer。
 4. **ads.txt**：过审后填真实 `pub-` 发布商 ID。
 5. **ads.js**：过审后在 `CLIENT` 和 `SLOTS` 里填 AdSense 的值。
