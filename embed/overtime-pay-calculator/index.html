@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overtime Pay Calculator — embeddable calculator | Workmath</title>
+<meta name="description" content="Enter your hourly rate and the hours you actually worked this week. The calculator separates straight time from the overtime premium, then annualises the result so you can compare it against a salary offer.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://workmath.net/embed/overtime-pay-calculator/">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/embed.css">
+</head>
+<body class="embed-body">
+<main class="embed-main">
+<h1 class="embed-h1">Overtime Pay Calculator</h1>
+
+<section class="calc" aria-labelledby="calc-h">
+      <h2 id="calc-h">Your weekly overtime</h2>
+      <p class="hint">Figures update as you type. Everything stays in your browser.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="rate">Hourly base rate</label>
+          <input id="rate" type="number" inputmode="decimal" min="0" step="0.01" value="20">
+        </div>
+        <div class="field">
+          <label for="hours">Total hours worked this week</label>
+          <input id="hours" type="number" inputmode="decimal" min="0" max="168" step="0.25" value="45">
+        </div>
+        <div class="field">
+          <label for="threshold">Weekly overtime threshold <span class="sub">(hours)</span></label>
+          <input id="threshold" type="number" inputmode="decimal" min="1" max="168" step="0.5" value="40">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="mult">Overtime multiplier</label>
+          <select id="mult">
+            <option value="1.5" selected>1.5× (federal minimum)</option>
+            <option value="2">2× (double time)</option>
+            <option value="1.75">1.75×</option>
+            <option value="1.25">1.25×</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="dt">Double-time after <span class="sub">(hours/day, 0 = off)</span></label>
+          <input id="dt" type="number" inputmode="decimal" min="0" max="24" step="0.5" value="0">
+        </div>
+        <div class="field">
+          <label for="weeks">Weeks worked per year</label>
+          <input id="weeks" type="number" inputmode="decimal" min="1" max="52" step="1" value="52">
+        </div>
+      </div>
+
+      <div class="results" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Gross pay this week</span>
+          <span class="value" id="r-week">$950.00</span>
+        </div>
+
+        <div class="kv">
+          <div class="kv-row"><span class="k">Regular hours</span><span class="v" id="r-regh">40.00</span></div>
+          <div class="kv-row"><span class="k">Overtime hours at <span id="r-mult">1.5</span>×</span><span class="v" id="r-oth">5.00</span></div>
+          <div class="kv-row"><span class="k">Straight-time pay</span><span class="v" id="r-straight">$800.00</span></div>
+          <div class="kv-row"><span class="k">Overtime pay</span><span class="v" id="r-otpay">$150.00</span></div>
+          <div class="kv-row"><span class="k">Overtime premium <span class="sub" style="font-weight:400">(the extra above straight time)</span></span><span class="v" id="r-premium">$50.00</span></div>
+          <div class="kv-row total"><span class="k">Effective hourly rate</span><span class="v" id="r-eff">$21.11</span></div>
+          <div class="kv-row"><span class="k">Monthly gross (avg)</span><span class="v" id="r-month">$4,116.67</span></div>
+          <div class="kv-row total"><span class="k">Annual gross at <span id="r-weeks">52</span> weeks</span><span class="v" id="r-year">$49,400.00</span></div>
+        </div>
+        <div class="err" id="r-err" hidden></div>
+        <p class="note">Gross pay only. Federal and state income tax, Social Security, Medicare, and any deductions your employer withholds are not subtracted here — use the take-home figure on your payslip, or apply your marginal rate to the annual total above.</p>
+      </div>
+    </section>
+
+<p class="embed-credit">
+  <a class="embed-brand" href="https://workmath.net/overtime-pay-calculator/?utm_source=embed&amp;utm_medium=widget&amp;utm_campaign=overtime-pay-calculator" target="_blank" rel="noopener">Overtime Pay Calculator by Workmath</a>
+  <select class="embed-cur" data-currency-select aria-label="Currency"></select>
+</p>
+</main>
+
+<script src="/app.js"></script>
+<script>
+(function () {
+  function calc() {
+    var rate = PL.val('rate', 20, 0, 100000);
+    var hours = PL.val('hours', 45, 0, 168);
+    var thr = PL.val('threshold', 40, 1, 168);
+    var mult = parseFloat(document.getElementById('mult').value) || 1.5;
+    var dtsel = PL.val('dt', 0, 0, 24);
+    var weeks = PL.val('weeks', 52, 1, 52);
+
+    var dtThreshold = dtsel > thr ? dtsel : Infinity;
+
+    var regH = Math.min(hours, thr);
+    var otH = Math.min(Math.max(hours - thr, 0), dtThreshold === Infinity ? Infinity : dtThreshold - thr);
+    var dtH = Math.max(hours - (dtThreshold === Infinity ? Infinity : dtThreshold), 0);
+
+    var straight = regH * rate;
+    var otPay = otH * rate * mult;
+    var dtPay = dtH * rate * 2;
+    var week = straight + otPay + dtPay;
+    var premium = otPay - (otH * rate) + (dtPay - (dtH * rate));
+    var eff = hours > 0 ? week / hours : 0;
+    var year = week * weeks;
+
+    PL.set('r-week', PL.money(week));
+    PL.set('r-regh', PL.num(regH, 2));
+    PL.set('r-oth', PL.num(otH + dtH, 2));
+    PL.set('r-mult', String(mult));
+    PL.set('r-straight', PL.money(straight));
+    PL.set('r-otpay', PL.money(otPay + dtPay));
+    PL.set('r-premium', PL.money(premium));
+    PL.set('r-eff', PL.money(eff));
+    PL.set('r-month', PL.money(year / 12));
+    PL.set('r-weeks', PL.num(weeks, 0));
+    PL.set('r-year', PL.money(year));
+
+    var err = document.getElementById('r-err');
+    if (hours > 168) { err.hidden = false; err.textContent = 'A week has 168 hours — check the hours field.'; }
+    else if (dtsel > 0 && dtsel <= thr) { err.hidden = false; err.textContent = 'Double-time threshold must be higher than the weekly threshold to take effect.'; }
+    else { err.hidden = true; err.textContent = ''; }
+  }
+  PL.watch(['rate', 'hours', 'threshold', 'mult', 'dt', 'weeks'], calc);
+})();
+</script>
+</body>
+</html>

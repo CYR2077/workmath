@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freelance Rate Calculator — embeddable calculator | Workmath</title>
+<meta name="description" content="Start from the income you want to take home, add the costs of running a business, then divide by the hours clients actually pay for — not by 2,080. That last step is where most freelance pricing goes wrong.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://workmath.net/embed/freelance-rate-calculator/">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/embed.css">
+</head>
+<body class="embed-body">
+<main class="embed-main">
+<h1 class="embed-h1">Freelance Rate Calculator</h1>
+
+<section class="calc" aria-labelledby="c1">
+      <h2 id="c1">Your minimum sustainable rate</h2>
+      <p class="hint">Everything updates live. Use "billable share" honestly — if you are unsure, 60% is a fair default.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="income">Income you want to take home <span class="sub">(per year, after tax)</span></label>
+          <input id="income" type="number" inputmode="decimal" min="0" step="1000" value="70000">
+        </div>
+        <div class="field">
+          <label for="expenses">Business expenses <span class="sub">(per year)</span></label>
+          <input id="expenses" type="number" inputmode="decimal" min="0" step="500" value="9000">
+        </div>
+        <div class="field">
+          <label for="tax">Tax and contributions <span class="sub">(% of profit)</span></label>
+          <input id="tax" type="number" inputmode="decimal" min="0" max="70" step="1" value="30">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="weeks">Weeks worked per year <span class="sub">(after holiday + sick)</span></label>
+          <input id="weeks" type="number" inputmode="decimal" min="1" max="52" step="1" value="46">
+        </div>
+        <div class="field">
+          <label for="hpw">Hours worked per week</label>
+          <input id="hpw" type="number" inputmode="decimal" min="1" max="90" step="1" value="40">
+        </div>
+        <div class="field">
+          <label for="util">Billable share of your time <span class="sub">(%)</span></label>
+          <input id="util" type="number" inputmode="decimal" min="20" max="100" step="1" value="60">
+        </div>
+      </div>
+
+      <div class="results" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Minimum hourly rate</span>
+          <span class="value" id="r-rate">$0.00</span>
+        </div>
+        <div class="kv">
+          <div class="kv-row"><span class="k">Revenue you must invoice</span><span class="v" id="r-rev">$0</span></div>
+          <div class="kv-row"><span class="k">Billable hours per year</span><span class="v" id="r-bill">0</span></div>
+          <div class="kv-row"><span class="k">Unbillable hours per year <span class="sub" style="font-weight:400">(admin, sales, learning)</span></span><span class="v" id="r-unbill">0</span></div>
+          <div class="kv-row"><span class="k">Day rate (8 billable hours)</span><span class="v" id="r-day">$0.00</span></div>
+          <div class="kv-row"><span class="k">Week rate (5 billable days)</span><span class="v" id="r-week">$0.00</span></div>
+          <div class="kv-row"><span class="k">Monthly revenue target</span><span class="v" id="r-month">$0</span></div>
+          <div class="kv-row total"><span class="k">Break-even rate <span class="sub" style="font-weight:400">(covers costs only, no income)</span></span><span class="v" id="r-break">$0.00</span></div>
+        </div>
+        <div class="err" id="r-err" hidden></div>
+        <p class="note">This is your floor, not your price. It is what you must charge to hit the target without losing money. Client value, urgency, and the risk you absorb belong on top of it.</p>
+      </div>
+    </section>
+
+<section class="calc" aria-labelledby="c2">
+      <h2 id="c2">Project quote</h2>
+      <p class="hint">Estimate the hours honestly, then add a contingency. Every project has a discovery phase nobody budgets for.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="ph">Estimated hours</label>
+          <input id="ph" type="number" inputmode="decimal" min="0" step="1" value="60">
+        </div>
+        <div class="field">
+          <label for="cont">Contingency <span class="sub">(% on top)</span></label>
+          <input id="cont" type="number" inputmode="decimal" min="0" max="100" step="5" value="20">
+        </div>
+        <div class="field">
+          <label for="dep">Deposit requested <span class="sub">(% up front)</span></label>
+          <input id="dep" type="number" inputmode="decimal" min="0" max="100" step="5" value="40">
+        </div>
+      </div>
+      <div class="results" aria-live="polite" style="border-top:1px dashed var(--line)">
+        <div class="result-main">
+          <span class="label">Quote the client</span>
+          <span class="value" id="q-total">$0</span>
+        </div>
+        <div class="kv">
+          <div class="kv-row"><span class="k">Base at your minimum rate</span><span class="v" id="q-base">$0</span></div>
+          <div class="kv-row"><span class="k">With contingency</span><span class="v" id="q-cont">$0</span></div>
+          <div class="kv-row"><span class="k">Deposit to request now</span><span class="v" id="q-dep">$0</span></div>
+          <div class="kv-row"><span class="k">Effective hourly on this quote</span><span class="v" id="q-eff">$0</span></div>
+        </div>
+        <p class="note">Round up to a clean number when you send it. Precision to the cent signals that you priced by arithmetic rather than by judgement.</p>
+      </div>
+    </section>
+
+<p class="embed-credit">
+  <a class="embed-brand" href="https://workmath.net/freelance-rate-calculator/?utm_source=embed&amp;utm_medium=widget&amp;utm_campaign=freelance-rate-calculator" target="_blank" rel="noopener">Freelance Rate Calculator by Workmath</a>
+  <select class="embed-cur" data-currency-select aria-label="Currency"></select>
+</p>
+</main>
+
+<script src="/app.js"></script>
+<script>
+(function () {
+  function calc() {
+    var income = PL.val('income', 70000, 0, 1e9);
+    var exp = PL.val('expenses', 9000, 0, 1e9);
+    var taxPct = PL.val('tax', 30, 0, 70);
+    var weeks = PL.val('weeks', 46, 1, 52);
+    var hpw = PL.val('hpw', 40, 1, 90);
+    var utilPct = PL.val('util', 60, 20, 100);
+
+    var t = taxPct / 100;
+    var util = utilPct / 100;
+    var profitNeeded = t < 1 ? income / (1 - t) : Infinity;
+    var revenue = profitNeeded + exp;
+    var totalHours = weeks * hpw;
+    var billHours = totalHours * util;
+    var rate = billHours > 0 && isFinite(revenue) ? revenue / billHours : 0;
+    var breakeven = billHours > 0 ? exp / billHours : 0;
+
+    PL.set('r-rate', isFinite(rate) && rate > 0 ? PL.money(rate) : '—');
+    PL.set('r-rev', isFinite(revenue) ? PL.money(revenue) : '—');
+    PL.set('r-bill', PL.num(billHours, 0) + ' h');
+    PL.set('r-unbill', PL.num(totalHours - billHours, 0) + ' h');
+    PL.set('r-day', PL.money(rate * 8));
+    PL.set('r-week', PL.money(rate * 40));
+    PL.set('r-month', PL.money(revenue / 12));
+    PL.set('r-break', PL.money(breakeven));
+
+    var err = document.getElementById('r-err');
+    if (t >= 1) { err.hidden = false; err.textContent = 'A tax rate of 100% or more cannot produce any income. Lower the rate.'; }
+    else { err.hidden = true; }
+
+    // project quote uses the rate above
+    var ph = PL.val('ph', 60, 0, 100000);
+    var cont = PL.val('cont', 20, 0, 100) / 100;
+    var dep = PL.val('dep', 40, 0, 100) / 100;
+    var base = ph * rate;
+    var withCont = base * (1 + cont);
+
+    PL.set('q-total', PL.money(withCont));
+    PL.set('q-base', PL.money(base));
+    PL.set('q-cont', PL.money(withCont));
+    PL.set('q-dep', PL.money(withCont * dep));
+    PL.set('q-eff', PL.money(ph > 0 ? withCont / ph : 0));
+  }
+
+  PL.watch(['income', 'expenses', 'tax', 'weeks', 'hpw', 'util', 'ph', 'cont', 'dep'], calc);
+})();
+</script>
+</body>
+</html>

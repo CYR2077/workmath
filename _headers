@@ -3,11 +3,10 @@
 
 /*
   X-Content-Type-Options: nosniff
-  X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://tpc.googlesyndication.com https://partner.googleadservices.com https://www.google.com https://www.gstatic.com https://fundingchoicesmessages.google.com; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://fundingchoicesmessages.google.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://adservice.google.com https://region1.google-analytics.com; base-uri 'self'; form-action 'self'; object-src 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://tpc.googlesyndication.com https://partner.googleadservices.com https://www.google.com https://www.gstatic.com https://fundingchoicesmessages.google.com; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://fundingchoicesmessages.google.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://adservice.google.com https://region1.google-analytics.com; base-uri 'self'; form-action 'self'; object-src 'none'
 
 /styles.css
   Cache-Control: public, max-age=31536000, immutable
@@ -32,3 +31,13 @@
 
 /404.html
   X-Robots-Tag: noindex
+
+# /embed/ 是被第三方 iframe 引用的裸计算器：必须允许被框（所以上面全局不再设
+# X-Frame-Options），但不该进索引——它们是计算器页的瘦身副本。缓存设成不可长缓存，
+# 免得用户改了公式之后，别人页面里还挂着旧版本的 iframe。
+/embed/*
+  X-Robots-Tag: noindex
+  Cache-Control: public, max-age=0, must-revalidate
+
+/embed.css
+  Cache-Control: public, max-age=3600

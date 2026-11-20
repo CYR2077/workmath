@@ -35,7 +35,8 @@ function collect() {
 
   for (const e of fs.readdirSync(ROOT, { withFileTypes: true })) {
     if (!e.isDirectory()) continue;
-    if (['.git', 'tools', 'node_modules'].includes(e.name)) continue;
+    // embed/ 是给第三方 iframe 用的裸计算器副本，带 noindex，不进 sitemap
+    if (['.git', 'tools', 'node_modules', 'embed'].includes(e.name)) continue;
     const full = path.join(ROOT, e.name);
 
     if (fs.existsSync(path.join(full, 'index.html'))) {

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Savings Goal Calculator — embeddable calculator | Workmath</title>
+<meta name="description" content="A goal written in today's money is a moving target. This works out what the goal actually costs at the date you need it, then the monthly amount that closes the gap — including growth on what you have already saved.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://workmath.net/embed/savings-goal-calculator/">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/embed.css">
+</head>
+<body class="embed-body">
+<main class="embed-main">
+<h1 class="embed-h1">Savings Goal Calculator</h1>
+
+<section class="calc" aria-labelledby="c1">
+      <h2 id="c1">How much do I need to save each month?</h2>
+      <p class="hint">Enter the goal in today's prices. Deposits are assumed to be made at the end of each month.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="goal">Goal <span class="sub">(in today's money)</span></label>
+          <input id="goal" type="number" inputmode="decimal" min="0" step="100" value="100000">
+        </div>
+        <div class="field">
+          <label for="years">Years until you need it</label>
+          <input id="years" type="number" inputmode="decimal" min="0" max="70" step="0.5" value="10">
+        </div>
+        <div class="field">
+          <label for="infl">Expected inflation <span class="sub">(% per year)</span></label>
+          <input id="infl" type="number" inputmode="decimal" min="0" max="25" step="0.1" value="3">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="current">Already saved</label>
+          <input id="current" type="number" inputmode="decimal" min="0" step="100" value="15000">
+        </div>
+        <div class="field">
+          <label for="ret">Expected return <span class="sub">(% per year, before tax)</span></label>
+          <input id="ret" type="number" inputmode="decimal" min="-20" max="30" step="0.1" value="6">
+        </div>
+        <div class="field">
+          <label for="freq">Deposit timing</label>
+          <select id="freq">
+            <option value="end" selected>End of each month</option>
+            <option value="begin">Start of each month</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Monthly deposit required</span>
+          <span class="value" id="r-pmt">$0.00</span>
+        </div>
+        <div class="kv">
+          <div class="kv-row"><span class="k">Goal at the target date <span class="sub" style="font-weight:400">(nominal)</span></span><span class="v" id="r-nom">$134,391.64</span></div>
+          <div class="kv-row"><span class="k">Of which is inflation</span><span class="v" id="r-infladd">$34,391.64</span></div>
+          <div class="kv-row"><span class="k">Your current savings grow to</span><span class="v" id="r-grown">$26,862.72</span></div>
+          <div class="kv-row"><span class="k">Gap to fill with deposits</span><span class="v" id="r-gap">$107,528.92</span></div>
+          <div class="kv-row"><span class="k">Total you will deposit</span><span class="v" id="r-contrib">$0.00</span></div>
+          <div class="kv-row"><span class="k">Growth earned on deposits</span><span class="v" id="r-earn">$0.00</span></div>
+          <div class="kv-row total"><span class="k">Real return after inflation</span><span class="v" id="r-real">2.91%</span></div>
+        </div>
+        <div class="err" id="r-err" hidden></div>
+        <p class="note">Pre-tax, before any account fees. A 1% annual fee on a ten-year goal quietly removes roughly a tenth of the final balance — worth checking before you trust the projection.</p>
+      </div>
+    </section>
+
+<section class="calc" aria-labelledby="c2">
+      <h2 id="c2">How long will it take at a fixed deposit?</h2>
+      <p class="hint">Use this when the monthly amount is set by your budget rather than by the goal.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="pmt2">Monthly deposit</label>
+          <input id="pmt2" type="number" inputmode="decimal" min="0" step="25" value="600">
+        </div>
+        <div class="field">
+          <label for="goal2">Goal <span class="sub">(in today's money)</span></label>
+          <input id="goal2" type="number" inputmode="decimal" min="0" step="100" value="100000">
+        </div>
+        <div class="field">
+          <label for="infl2">Inflation <span class="sub">(% per year)</span></label>
+          <input id="infl2" type="number" inputmode="decimal" min="0" max="25" step="0.1" value="3">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="current2">Already saved</label>
+          <input id="current2" type="number" inputmode="decimal" min="0" step="100" value="15000">
+        </div>
+        <div class="field">
+          <label for="ret2">Expected return <span class="sub">(% per year)</span></label>
+          <input id="ret2" type="number" inputmode="decimal" min="-20" max="30" step="0.1" value="6">
+        </div>
+      </div>
+      <div class="results" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Time to reach the goal</span>
+          <span class="value" id="s-time">9 years 2 months</span>
+        </div>
+        <div class="kv">
+          <div class="kv-row"><span class="k">Balance at that date</span><span class="v" id="s-bal">$0</span></div>
+          <div class="kv-row"><span class="k">Goal at that date (nominal)</span><span class="v" id="s-target">$0</span></div>
+          <div class="kv-row"><span class="k">Total deposited</span><span class="v" id="s-dep">$0</span></div>
+        </div>
+        <p class="note" id="s-note">The goal grows while you save, which is why a fixed deposit takes longer than a simple division suggests.</p>
+      </div>
+    </section>
+
+<p class="embed-credit">
+  <a class="embed-brand" href="https://workmath.net/savings-goal-calculator/?utm_source=embed&amp;utm_medium=widget&amp;utm_campaign=savings-goal-calculator" target="_blank" rel="noopener">Savings Goal Calculator by Workmath</a>
+  <select class="embed-cur" data-currency-select aria-label="Currency"></select>
+</p>
+</main>
+
+<script src="/app.js"></script>
+<script>
+(function () {
+  function monthlyRate(annual) { return Math.pow(1 + annual, 1 / 12) - 1; }
+
+  function calcForward() {
+    var goal = PL.val('goal', 100000, 0, 1e12);
+    var years = PL.val('years', 10, 0, 70);
+    var infl = PL.val('infl', 3, 0, 25) / 100;
+    var cur = PL.val('current', 15000, 0, 1e12);
+    var ret = PL.val('ret', 6, -20, 30) / 100;
+    var begin = document.getElementById('freq').value === 'begin';
+
+    var m = Math.round(years * 12);
+    var nominal = goal * Math.pow(1 + infl, years);
+    var rm = monthlyRate(ret);
+
+    var grown, af;
+    if (m === 0) {
+      grown = cur; af = 0;
+    } else {
+      grown = cur * Math.pow(1 + rm, m);
+      if (Math.abs(rm) < 1e-12) {
+        af = m;
+      } else {
+        af = (Math.pow(1 + rm, m) - 1) / rm;
+        if (begin) af = af * (1 + rm);
+      }
+    }
+
+    var gap = nominal - grown;
+    var pmt = gap > 0 && af > 0 ? gap / af : 0;
+
+    var contrib = pmt * m;
+    var earn = Math.max(0, nominal - cur * Math.pow(1 + rm, m) - contrib);
+
+    PL.set('r-pmt', pmt > 0 ? PL.money(pmt) : 'Nothing — already covered');
+    PL.set('r-nom', PL.money(nominal));
+    PL.set('r-infladd', PL.money(nominal - goal));
+    PL.set('r-grown', PL.money(grown));
+    PL.set('r-gap', PL.money(Math.max(0, gap)));
+    PL.set('r-contrib', PL.money(contrib));
+    PL.set('r-earn', PL.money(earn));
+    PL.set('r-real', ((1 + ret) / (1 + infl) - 1) * 100 >= 0
+      ? PL.pct(((1 + ret) / (1 + infl) - 1) * 100, 2)
+      : '-' + PL.pct(Math.abs((1 + ret) / (1 + infl) - 1) * 100, 2));
+
+    var err = document.getElementById('r-err');
+    if (m === 0 && nominal > cur) {
+      err.hidden = false;
+      err.textContent = 'With zero years to go, the only way to close the gap is a lump sum today.';
+    } else { err.hidden = true; }
+  }
+
+  function calcReverse() {
+    var pmt = PL.val('pmt2', 600, 0, 1e9);
+    var goal = PL.val('goal2', 100000, 0, 1e12);
+    var infl = PL.val('infl2', 3, 0, 25) / 100;
+    var cur = PL.val('current2', 15000, 0, 1e12);
+    var ret = PL.val('ret2', 6, -20, 30) / 100;
+
+    var rm = monthlyRate(ret);
+    var mi = Math.pow(1 + infl, 1 / 12) - 1;
+    var bal = cur;
+    var target = goal;
+    var month = 0;
+    var MAX = 1200;
+
+    while (month < MAX && bal < target) {
+      bal = bal * (1 + rm) + pmt;
+      target = target * (1 + mi);
+      month++;
+    }
+
+    var reached = bal >= target;
+    var y = Math.floor(month / 12), mo = month % 12;
+    var label;
+    if (!reached) {
+      label = 'Over 100 years';
+    } else if (month === 0) {
+      label = 'Already there';
+    } else if (y === 0) {
+      label = mo + (mo === 1 ? ' month' : ' months');
+    } else {
+      label = y + (y === 1 ? ' year' : ' years') + (mo ? ' ' + mo + ' mo' : '');
+    }
+
+    PL.set('s-time', label);
+    PL.set('s-bal', PL.money(bal));
+    PL.set('s-target', PL.money(target));
+    PL.set('s-dep', PL.money(pmt * month));
+
+    var note = document.getElementById('s-note');
+    if (!reached) {
+      note.textContent = 'At this deposit the goal is never reached within a century: the target grows faster than the balance. Either raise the deposit, lower the goal, or reconsider the return assumption.';
+    } else if (month === 0) {
+      note.textContent = 'Existing savings already cover the goal at today\'s price. Investing them at the assumed return keeps it covered ahead of inflation.';
+    } else {
+      note.textContent = 'The goal grows at ' + PL.pct(infl * 100, 1) + ' a year while your balance grows at ' + PL.pct(ret * 100, 1) + '. Total deposited over the period: ' + PL.money(pmt * month) + ' against a final target of ' + PL.money(target) + '.';
+    }
+  }
+
+  PL.watch(['goal', 'years', 'infl', 'current', 'ret', 'freq'], calcForward);
+  PL.watch(['pmt2', 'goal2', 'infl2', 'current2', 'ret2'], calcReverse);
+})();
+</script>
+</body>
+</html>

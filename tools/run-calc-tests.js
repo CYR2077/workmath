@@ -111,7 +111,7 @@ function buildSandbox(html) {
   };
   sandbox.window = sandbox;
   sandbox.globalThis = sandbox;
-  return { sandbox, findById };
+  return { sandbox, findById, registry };
 }
 
 function runPage(name, checks) {
@@ -222,6 +222,44 @@ console.log('\n[tip-split]  840 pool, hours 8/6/5.5/7 (weights 1/1/1/1.25, hours
 all = runPage('tip-split-calculator', {
   'r-total': '$840.00'
 }) && all;
+
+/* ---------- 嵌入件一致性 ----------
+   /embed/<slug>/ 是把正式页面的 <section class="calc"> 和内联脚本原样抽出来的。
+   抽取逻辑或页面结构一变就可能漏掉元素，所以这里用同样的输入跑一遍两边，
+   逐个 id 比对输出文本。 */
+const EMBED_PAGES = [
+  'overtime-pay-calculator', 'hourly-to-salary-calculator', 'freelance-rate-calculator',
+  'savings-goal-calculator', 'sleep-debt-calculator', 'tip-split-calculator'
+];
+
+function outputsOf(name) {
+  const html = fs.readFileSync(path.join(ROOT, name, 'index.html'), 'utf8');
+  const { sandbox, registry } = buildSandbox(html);
+  const ctx = vm.createContext(sandbox);
+  vm.runInContext(APP, ctx, { filename: 'app.js' });
+  const scripts = [...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)]
+    .map(m => m[1])
+    .filter(s => s.trim() && !/"@context"/.test(s));
+  for (const s of scripts) vm.runInContext(s, ctx, { filename: name + '/inline.js' });
+  const map = new Map();
+  for (const el of registry) if (el.id && el.textContent) map.set(el.id, el.textContent);
+  return map;
+}
+
+console.log('\n--- embed parity (公式与正式页面逐个 id 比对) ---');
+for (const slug of EMBED_PAGES) {
+  const page = outputsOf(slug);
+  const widget = outputsOf('embed/' + slug);
+  const diffs = [];
+  for (const [id, v] of page) {
+    if (!widget.has(id)) diffs.push(id + ' missing');
+    else if (widget.get(id) !== v) diffs.push(id + ': ' + widget.get(id) + ' != ' + v);
+  }
+  const ok = diffs.length === 0 && page.size > 0;
+  if (!ok) all = false;
+  console.log('  ' + (ok ? '\u2713' : '\u2717') + ' ' + slug.padEnd(28) + ' ' + page.size +
+    ' outputs' + (ok ? '' : ' :: ' + diffs.slice(0, 5).join('; ')));
+}
 
 console.log('\n=== ' + (all ? 'ALL CHECKS PASSED' : 'SOME CHECKS FAILED') + ' ===');
 process.exit(all ? 0 : 1);

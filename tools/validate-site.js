@@ -22,7 +22,7 @@ const missingMeta = [];
 let numericFails = 0;
 
 // 已知静态资源
-const asset = new Set(['/styles.css', '/app.js', '/ads.js', '/favicon.svg', '/sitemap.xml', '/robots.txt', '/ads.txt']);
+const asset = new Set(['/styles.css', '/app.js', '/ads.js', '/embed.css', '/favicon.svg', '/sitemap.xml', '/robots.txt', '/ads.txt']);
 
 function exists(urlPath) {
   const clean = urlPath.split('#')[0].split('?')[0];

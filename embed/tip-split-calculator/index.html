@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tip Split Calculator — embeddable calculator | Workmath</title>
+<meta name="description" content="Enter the pool and each person's shift hours. Everyone gets a share proportional to the time they put in, with the exact cent-level amount and their personal tip-per-hour rate.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://workmath.net/embed/tip-split-calculator/">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/embed.css">
+</head>
+<body class="embed-body">
+<main class="embed-main">
+<h1 class="embed-h1">Tip Split Calculator</h1>
+
+<section class="calc" aria-labelledby="c1">
+      <h2 id="c1">The pool</h2>
+      <p class="hint">Enter the total to be divided, or derive it from a bill and a tip percentage.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="bill">Bill or sales total <span class="sub">(optional)</span></label>
+          <input id="bill" type="number" inputmode="decimal" min="0" step="0.01" value="0">
+        </div>
+        <div class="field">
+          <label for="tippct">Tip percentage <span class="sub">(used with the bill)</span></label>
+          <input id="tippct" type="number" inputmode="decimal" min="0" max="100" step="0.5" value="18">
+        </div>
+        <div class="field">
+          <label for="pool">Tip pool total</label>
+          <input id="pool" type="number" inputmode="decimal" min="0" step="0.01" value="840">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="mode">Split method</label>
+          <select id="mode">
+            <option value="hours" selected>By hours worked</option>
+            <option value="points">By points (hours × role weight)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="rounding">Rounding</label>
+          <select id="rounding">
+            <option value="exact" selected>Exact (to the cent)</option>
+            <option value="whole">Round to whole units, keep total exact</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+<section class="calc" aria-labelledby="c2">
+      <h2 id="c2">Who worked</h2>
+      <p class="hint" id="weight-hint">Weights are ignored in hours mode. Switch to points to use them.</p>
+
+      <div class="dyn-head" id="dyn-head">
+        <span style="display:grid;grid-template-columns:1.4fr .8fr .8fr auto;gap:8px">
+          <span>Name</span><span>Hours</span><span>Weight</span><span></span>
+        </span>
+      </div>
+
+      <div id="staff"></div>
+
+      <div class="btn-row">
+        <button class="btn" type="button" id="add">+ Add person</button>
+        <button class="btn btn-ghost" type="button" id="clear">Reset list</button>
+      </div>
+    </section>
+
+<section class="calc" aria-labelledby="c3">
+      <h2 id="c3">Result</h2>
+      <div class="results" style="border-top:0;padding-top:0;margin-top:0" aria-live="polite">
+        <div class="result-main">
+          <span class="label">Total distributed</span>
+          <span class="value" id="r-total">$840.00</span>
+        </div>
+        <div class="table-scroll">
+          <table id="res-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th class="num">Hours</th>
+                <th class="num" id="th-weight">Weight</th>
+                <th class="num">Share</th>
+                <th class="num">Tip</th>
+                <th class="num">Per hour</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="err" id="r-err" hidden></div>
+        <p class="note">Nothing is uploaded — the calculation happens in this tab. Screenshot the table or use the copy button below to share the split with your team.</p>
+        <div class="btn-row"><button class="btn" type="button" id="copy">Copy split as text</button></div>
+      </div>
+    </section>
+
+<p class="embed-credit">
+  <a class="embed-brand" href="https://workmath.net/tip-split-calculator/?utm_source=embed&amp;utm_medium=widget&amp;utm_campaign=tip-split-calculator" target="_blank" rel="noopener">Tip Split Calculator by Workmath</a>
+  <select class="embed-cur" data-currency-select aria-label="Currency"></select>
+</p>
+</main>
+
+<script src="/app.js"></script>
+<script>
+(function () {
+  var DEFAULT = [
+    { name: 'Alex', hours: 8, weight: 1 },
+    { name: 'Priya', hours: 6, weight: 1 },
+    { name: 'Sam', hours: 5.5, weight: 1 },
+    { name: 'Jordan', hours: 7, weight: 1.25 }
+  ];
+
+  var staffEl = document.getElementById('staff');
+
+  function addRow(data) {
+    var row = document.createElement('div');
+    row.className = 'dyn-row';
+    row.innerHTML =
+      '<input type="text" class="p-name" placeholder="Name" maxlength="28" aria-label="Name">' +
+      '<input type="number" class="p-hours" min="0" max="24" step="0.25" inputmode="decimal" placeholder="0" aria-label="Hours worked">' +
+      '<input type="number" class="p-weight" min="0" max="10" step="0.05" inputmode="decimal" placeholder="1" aria-label="Role weight">' +
+      '<button type="button" class="btn btn-ghost p-del" aria-label="Remove person">\u00D7</button>';
+    row.querySelector('.p-name').value = data && data.name ? data.name : '';
+    row.querySelector('.p-hours').value = data && data.hours !== undefined ? data.hours : '';
+    row.querySelector('.p-weight').value = data && data.weight !== undefined ? data.weight : 1;
+    row.querySelector('.p-del').addEventListener('click', function () { row.remove(); recalc(); });
+    row.addEventListener('input', recalc);
+    staffEl.appendChild(row);
+    return row;
+  }
+
+  function reset() {
+    staffEl.innerHTML = '';
+    DEFAULT.forEach(addRow);
+    document.getElementById('pool').value = 840;
+    document.getElementById('bill').value = 0;
+    document.getElementById('mode').value = 'hours';
+    document.getElementById('rounding').value = 'exact';
+    recalc();
+  }
+
+  function readStaff() {
+    var out = [];
+    staffEl.querySelectorAll('.dyn-row').forEach(function (row) {
+      var name = row.querySelector('.p-name').value.trim() || 'Unnamed';
+      var h = parseFloat(row.querySelector('.p-hours').value);
+      var w = parseFloat(row.querySelector('.p-weight').value);
+      if (!isFinite(h) || h <= 0) return;
+      if (!isFinite(w) || w <= 0) w = 1;
+      out.push({ name: name, hours: h, weight: w });
+    });
+    return out;
+  }
+
+  function money0(n) { return PL.money(n, 2); }
+
+  function recalc() {
+    var bill = PL.val('bill', 0, 0, 1e9);
+    var pct = PL.val('tippct', 18, 0, 100);
+    var pool = PL.val('pool', 840, 0, 1e9);
+    var mode = document.getElementById('mode').value;
+    var rounding = document.getElementById('rounding').value;
+
+    if (bill > 0) {
+      pool = bill * pct / 100;
+      document.getElementById('pool').value = pool.toFixed(2);
+    }
+
+    var people = readStaff();
+    var tbody = document.querySelector('#res-table tbody');
+    tbody.innerHTML = '';
+    document.getElementById('th-weight').style.display = (mode === 'points') ? '' : '';
+    document.getElementById('weight-hint').textContent = (mode === 'points')
+      ? 'Points = hours × weight. Higher-weight roles take a larger slice of the same pool.'
+      : 'Weights are ignored in hours mode. Switch to points to use them.';
+
+    var err = document.getElementById('r-err');
+    if (people.length === 0) {
+      err.hidden = false; err.textContent = 'Add at least one person with hours greater than zero.';
+      PL.set('r-total', money0(0));
+      return;
+    }
+    err.hidden = true;
+
+    var totalPts = people.reduce(function (s, p) {
+      return s + (mode === 'points' ? p.hours * p.weight : p.hours);
+    }, 0);
+
+    var totalHours = people.reduce(function (s, p) { return s + p.hours; }, 0);
+
+    people.forEach(function (p) {
+      p.pts = mode === 'points' ? p.hours * p.weight : p.hours;
+      p.exact = totalPts > 0 ? pool * p.pts / totalPts : 0;
+      p.share = p.exact;
+    });
+
+    if (rounding === 'whole') {
+      var unit = 1;
+      var floored = people.map(function (p) { return Math.floor(p.exact / unit) * unit; });
+      var assigned = floored.reduce(function (a, b) { return a + b; }, 0);
+      var leftover = Math.round((pool - assigned) / unit);
+      var order = people.map(function (p, i) { return { i: i, frac: p.exact - floored[i] }; })
+        .sort(function (a, b) { return b.frac - a.frac; });
+      for (var k = 0; k < leftover && k < order.length; k++) floored[order[k].i] += unit;
+      people.forEach(function (p, i) { p.share = floored[i]; });
+    }
+
+    var distributed = people.reduce(function (s, p) { return s + p.share; }, 0);
+
+    people.forEach(function (p) {
+      var tr = document.createElement('tr');
+      var sharePct = totalPts > 0 ? (p.pts / totalPts * 100) : 0;
+      tr.innerHTML =
+        '<td>' + escapeHtml(p.name) + '</td>' +
+        '<td class="num">' + PL.num(p.hours, 2) + '</td>' +
+        '<td class="num">' + (mode === 'points' ? PL.num(p.weight, 2) : '\u2014') + '</td>' +
+        '<td class="num">' + PL.pct(sharePct, 1) + '</td>' +
+        '<td class="num"><strong>' + money0(p.share) + '</strong></td>' +
+        '<td class="num">' + money0(p.hours > 0 ? p.share / p.hours : 0) + '</td>';
+      tbody.appendChild(tr);
+    });
+
+    PL.set('r-total', money0(distributed));
+
+    var sumRow = document.createElement('tr');
+    sumRow.innerHTML =
+      '<td><strong>Total</strong></td>' +
+      '<td class="num"><strong>' + PL.num(totalHours, 2) + '</strong></td>' +
+      '<td class="num"><strong>' + (mode === 'points' ? PL.num(totalPts, 2) : '\u2014') + '</strong></td>' +
+      '<td class="num"><strong>100%</strong></td>' +
+      '<td class="num"><strong>' + money0(distributed) + '</strong></td>' +
+      '<td class="num">\u2014</td>';
+    tbody.appendChild(sumRow);
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  document.getElementById('add').addEventListener('click', function () {
+    var row = addRow({ name: '', hours: 0, weight: 1 });
+    row.querySelector('.p-name').focus();
+    recalc();
+  });
+  document.getElementById('clear').addEventListener('click', reset);
+
+  document.getElementById('copy').addEventListener('click', function () {
+    var lines = ['Tip pool split \u2014 ' + PL.money(PL.val('pool', 0, 0, 1e9))];
+    document.querySelectorAll('#res-table tbody tr').forEach(function (tr) {
+      var cells = Array.prototype.map.call(tr.children, function (td) { return td.textContent.trim(); });
+      lines.push(cells[0] + ': ' + cells[4] + ' (' + cells[1] + ' hrs)');
+    });
+    PL.copy(lines.join('\n'), this);
+  });
+
+  PL.watch(['bill', 'tippct', 'pool', 'mode', 'rounding'], recalc);
+
+  // seed
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', reset);
+  } else { reset(); }
+})();
+</script>
+</body>
+</html>

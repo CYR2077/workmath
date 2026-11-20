@@ -1,4 +1,4 @@
-﻿# Workmath
+# Workmath
 
 六个面向海外流量的计算器工具站，纯静态，GitHub + Cloudflare Pages 零成本部署，Google AdSense 变现。除域名外没有其他支出。
 
@@ -86,6 +86,22 @@ node tools\indexnow.js https://workmath.net/how-to-split-tips-fairly/   # 只推
 ```
 
 推送只在**部署完成之后**发：IndexNow 会回源抓 `KEY.txt` 校验，key 文件还没上线时会返回 403。
+
+## 嵌入件：/embed/（自然外链的唯一来源）
+
+新域名最难的不是排名，是没人知道它存在。嵌入件让别人把计算器搬进自己的页面（HR 博客、招聘站、工会说明页、个人博客），每一份嵌入都带着一条指向 `workmath.net` 的署名链接，而且是别人主动放的、不会被判作弊的那种。
+
+```powershell
+node tools\build-embed.js         # 从 6 个计算器页面抽取生成 embed/
+node tools\build-embed.js --check # 只校验抽取是否成功，不写文件
+```
+
+- 生成 `embed/index.html`（嵌入代码清单，给站长看的）和 `embed/<slug>/index.html`（裸计算器，可被 iframe 引用）。
+- **不重写公式**：`<section class="calc">` 和页面内联计算脚本原样搬到嵌入件里。页面结构一变脚本就报错，不会静默发出一个算错的挂件。
+- `node tools\run-calc-tests.js` 末尾会逐个 id 比对正式页面与嵌入件的输出，抽取漏了元素会立刻失败。
+- `/embed/*` 带 `X-Robots-Tag: noindex` 且不进 sitemap —— 它们是计算器页的瘦身副本，不该和主页面抢排名。
+- 因此 `_headers` 去掉了全局 `X-Frame-Options`（留着它浏览器就会拒绝被第三方框）。点击劫持对一个纯静态、无登录无提交的站没有攻击面，所以也没有加 `frame-ancestors`——这个头的作用本来就是「允许被嵌入」。
+- 改完任何计算器页面后：`node tools\build-embed.js` → `node tools\validate-site.js` → 推。
 
 ## 部署前必改
 
