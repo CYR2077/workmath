@@ -1,5 +1,4 @@
-# robots.txt — Workmath
-# Replace workmath.net with your own domain before deploying.
+# robots.txt — Workmath (https://workmath.net)
 
 User-agent: *
 Allow: /

@@ -73,6 +73,20 @@ node tools\validate-site.js         # 校验全站内链、meta、以及每页�
 
 要加一档费率（比如 $55），在 `tools/generate-rate-pages.js` 的 `RATES` 数组里加一条，填上 `rate`、`note`（该费率的现实定位）和 `verdict`（"这算不算好收入"的判断），重新运行即可。`note` 和 `verdict` 是每页唯一的正文来源 —— 不填就会和其他页面撞内容，AdSense 会判重复。
 
+## 主动推送：IndexNow（Bing / Yandex）
+
+Google 的收录靠 sitemap + 内链 + 时间，没有主动推送接口。Bing 有，而且英文工具站里 Bing 通常占 8–15% 的自然流量，值得白拿。
+
+站点根目录的 `ba07a091e2c59cf6524c3f753ebf4131.txt` 是 IndexNow 的 key 校验文件（内容就是 key 本身），必须随站点一起部署。
+
+```powershell
+node tools\indexnow.js --dry      # 只打印，不发请求
+node tools\indexnow.js            # 把 sitemap.xml 里 39 个 url 全部推送
+node tools\indexnow.js https://workmath.net/how-to-split-tips-fairly/   # 只推动改过的页
+```
+
+推送只在**部署完成之后**发：IndexNow 会回源抓 `KEY.txt` 校验，key 文件还没上线时会返回 403。
+
 ## 部署前必改
 
 1. **域名**：所有文件里的 `workmath.net` 换成你的域名（DEPLOY.md 第 5 节有批量替换命令）。
